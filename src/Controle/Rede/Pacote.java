@@ -28,7 +28,7 @@ public class Pacote implements Serializable{
     public static final int CLIENTE = 1;
     public static final int MOVIMENTO = 2;
     public static final int INICIA_JOGO = 3;
-    public static final int FINAL = 4;
+    //public static final int FINAL = 4;
     public static final int OUTRO_JOGADOR = 5;
     public static final int MENSAGEM_CHAT = 6;
     public static final int DERROTADO = 7;

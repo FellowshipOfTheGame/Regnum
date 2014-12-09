@@ -82,10 +82,10 @@ public class Cliente extends Thread{
                         }case Pacote.DERROTADO:{
                             this.sala.jogadorDerrotado(mensagem.getOrdem());
                             break;
-                        }case Pacote.FINAL:{
+                        }/*case Pacote.FINAL:{
                             this.sala.jogadorVencedor(mensagem.getOrdem());
                             break;
-                        }       
+                        }  */     
                     }
                 } catch (ClassNotFoundException ex) {
                     System.out.println("cliente erro 1");
@@ -160,7 +160,7 @@ public class Cliente extends Thread{
         }
     }
 
-    void notificaJogadorVencedor(int jogadorVencedor) {
+    /*void notificaJogadorVencedor(int jogadorVencedor) {
         try {
             mensagem.setOrdem(jogadorVencedor);
             mensagem.setProtocolo(Pacote.FINAL);
@@ -168,5 +168,5 @@ public class Cliente extends Thread{
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 }

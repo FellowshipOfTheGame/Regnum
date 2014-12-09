@@ -194,7 +194,8 @@ public class Controle {
                     this.estado = OUTRO_JOGANDO;
                 }
             } else {
-                this.sala.jogadorVenceu(jogadorAtual);
+                this.estado = VENCEDOR;
+                //this.sala.jogadorVenceu(jogadorAtual);
             }
         }
     }
