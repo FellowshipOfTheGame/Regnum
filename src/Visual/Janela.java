@@ -5,16 +5,14 @@
 package Visual;
 
 import Controle.Controle;
-//import Visual.Perpectiva.Tela3D;
+import Controle.FileChooser;
 import Visual.Plano.Tela2D;
-//import com.sun.opengl.util.Animator;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.media.opengl.GLCanvas;
 import javax.swing.JColorChooser;
 
 /**
@@ -44,7 +42,6 @@ public class Janela extends javax.swing.JFrame {
 
         jPAtor.setVisible(false);
         jPRede.setVisible(false);
-        jPCamera.setVisible(false);
         jBIniciarPartida.setVisible(false);
         jTAChat.setVisible(false);
         jTMensagem.setVisible(false);
@@ -82,9 +79,6 @@ public class Janela extends javax.swing.JFrame {
         jBOKAtor = new javax.swing.JButton();
         jCBGravar = new javax.swing.JCheckBox();
         jBCor = new javax.swing.JButton();
-        jPCamera = new javax.swing.JPanel();
-        jTNomedoJogo = new javax.swing.JTextField();
-        jBOKCamera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(600, 600));
@@ -305,38 +299,6 @@ public class Janela extends javax.swing.JFrame {
                 .addGap(0, 4, Short.MAX_VALUE))
         );
 
-        jPCamera.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPCamera.setPreferredSize(new java.awt.Dimension(300, 50));
-
-        jTNomedoJogo.setText("Nome do Jogo");
-
-        jBOKCamera.setText("OK");
-        jBOKCamera.setMaximumSize(new java.awt.Dimension(34, 40));
-        jBOKCamera.setMinimumSize(new java.awt.Dimension(34, 40));
-        jBOKCamera.setPreferredSize(new java.awt.Dimension(34, 40));
-        jBOKCamera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBOKCameraActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPCameraLayout = new javax.swing.GroupLayout(jPCamera);
-        jPCamera.setLayout(jPCameraLayout);
-        jPCameraLayout.setHorizontalGroup(
-            jPCameraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPCameraLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTNomedoJogo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBOKCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPCameraLayout.setVerticalGroup(
-            jPCameraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBOKCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTNomedoJogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -347,7 +309,6 @@ public class Janela extends javax.swing.JFrame {
                 .addComponent(jTMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPCamera, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
             .addComponent(jPAtor, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
             .addComponent(jPRede, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
             .addComponent(jPInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
@@ -361,17 +322,13 @@ public class Janela extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPAtor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPCamera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0))))
+                    .addComponent(jTMensagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -389,47 +346,11 @@ public class Janela extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_jBOKRedeActionPerformed
 
-    private void jBOKCameraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOKCameraActionPerformed
-        Frame frame = new Frame(this.jTNomedoJogo.getText());
-        //GLCanvas canvas = new GLCanvas();
-//        this.listener = new Tela3D(this);
-        // canvas.addGLEventListener(this.listener);
-        //canvas.addKeyListener(this.listener);
-
-        //frame.add(canvas);
-        frame.setSize(640, 480);
-        //final Animator animator = new Animator(canvas);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                // Run this on another thread than the AWT event queue to
-                // make sure the call to Animator.stop() completes before
-                // exiting
-                new Thread(new Runnable() {
-                    public void run() {
-//                        animator.stop();
-                        System.exit(0);
-                    }
-                }).start();
-            }
-        });
-        // Center frame
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-//        animator.start();
-
-        //TODO implementar thread de leitura ou escrita
-        if (this.controle.isAssistindo()) {
-        } else {
-        }
-
-        this.jPCamera.setVisible(false);
-    }//GEN-LAST:event_jBOKCameraActionPerformed
-
     private void jBOKInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOKInicialActionPerformed
         if (this.jRBAssistirPartida.isSelected()) {
             this.controle.setEstado(Controle.ASSISTINDO);
-            this.jPCamera.setVisible(true);
+            FileChooser.getOpenDialog();
+            gravarGame();
         } else {
             this.jPRede.setVisible(true);
             this.controle.setEstado(Controle.INICIANDO);
@@ -477,14 +398,16 @@ public class Janela extends javax.swing.JFrame {
         controle.setUsuario(jTFTime.getText(), corAtor);
         controle.conectaCliente();
 
-        System.out.println("botao criar personagem");
+        if (this.jCBGravar.isSelected()) {
+            FileChooser.getSaveDialog();
+            gravarGame();
+        }
 
         repaint();
     }//GEN-LAST:event_jBOKAtorActionPerformed
 
     private void jCBGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBGravarActionPerformed
         this.controle.setGavar(this.jCBGravar.isSelected());
-        this.jPCamera.setVisible(this.jCBGravar.isSelected());
         repaint();
     }//GEN-LAST:event_jCBGravarActionPerformed
 
@@ -503,12 +426,10 @@ public class Janela extends javax.swing.JFrame {
     private javax.swing.JButton jBIniciarPartida;
     private javax.swing.JButton jBMensagem;
     private javax.swing.JButton jBOKAtor;
-    private javax.swing.JButton jBOKCamera;
     private javax.swing.JButton jBOKInicial;
     private javax.swing.JButton jBOKRede;
     private javax.swing.JCheckBox jCBGravar;
     private javax.swing.JPanel jPAtor;
-    private javax.swing.JPanel jPCamera;
     private javax.swing.JPanel jPInicial;
     private javax.swing.JPanel jPRede;
     private javax.swing.JPanel jPainel;
@@ -521,7 +442,6 @@ public class Janela extends javax.swing.JFrame {
     private javax.swing.JTextField jTFIP;
     private javax.swing.JTextField jTFTime;
     private javax.swing.JTextField jTMensagem;
-    private javax.swing.JTextField jTNomedoJogo;
     // End of variables declaration//GEN-END:variables
 
     public void iniciaPartida() {
@@ -575,5 +495,42 @@ public class Janela extends javax.swing.JFrame {
     public void respostaChat(String time, String mensagemChat, Color c) {
         //this.jTAChat.(c);
         this.jTAChat.append(" " + time + ": " + mensagemChat + "\n");
+    }
+    
+    private void gravarGame(){            
+            /*Frame frame = new Frame(this.jTNomedoJogo.getText());
+        //GLCanvas canvas = new GLCanvas();
+//        this.listener = new Tela3D(this);
+            // canvas.addGLEventListener(this.listener);
+            //canvas.addKeyListener(this.listener);
+
+            //frame.add(canvas);
+            frame.setSize(640, 480);
+            //final Animator animator = new Animator(canvas);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                // Run this on another thread than the AWT event queue to
+                    // make sure the call to Animator.stop() completes before
+                    // exiting
+                    new Thread(new Runnable() {
+                        public void run() {
+//                        animator.stop();
+                            System.exit(0);
+                        }
+                    }).start();
+                }
+            });
+            // Center frame
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+//        animator.start();
+
+            //TODO implementar thread de leitura ou escrita
+            if (this.controle.isAssistindo()) {
+            } else {
+            }
+
+            this.jPCamera.setVisible(false);*/
     }
 }

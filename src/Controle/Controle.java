@@ -50,6 +50,7 @@ public class Controle {
     /**
      * Controle para haver uma uncia instancia de controle no programa design
      * patern: Singleton
+     * @return 
      */
     public static Controle instanciaControle() {
         if (CONTROLE == null) {
@@ -160,6 +161,7 @@ public class Controle {
         if (movimentoRealizado.getTipoMovimento() == Movimento.ASSOPRO) {
             this.xadrez.realizarAcao(ordem, movimentoRealizado.getCampoSelecionado(), movimentoRealizado.getTipoMovimento());
         } else {
+            SaveLoad.save(movimentoRealizado);
             if (!this.xadrez.tratarExecaoMovimento(ordem, movimentoRealizado)) {
                 if (movimentoRealizado.getTipoMovimento() <= Movimento.PEGARP2) {
                     this.xadrez.realizarMovimento(ordem, movimentoRealizado.getCampoSelecionado(), movimentoRealizado.getCampoDestino(), movimentoRealizado.getTipoMovimento());
@@ -257,6 +259,9 @@ public class Controle {
     public int getJogadorAtual() {
         return jogadorAtual;
     }
+    
     /*FIM----------------------IMPLEMENTACAO GET E SET------------------------*/
+
+    
 
 }

@@ -33,28 +33,6 @@ Ataque{
 	Rei:
 }
 
-Defesa{ 
-	Soldado: Soldado se defendendo deve estar morrendo de vez tipo algo de só 
-	ficar as arminhas e uma fumacinha;
-	
-	Torre Fechada:
-	
-	Torre Aberta:
-	
-	Cavaleiro:
-	
-	Bispo:
-
-	Principe: Principe se defendendo deve estar morrendo de vez tipo algo de só 
-	ficar a capinha e uma fumacinha;
-	
-	Dama:
-	
-	Rei: Rei se defendendo deve estar morrendo de vez tipo algo de só 
-	ficar a cadeira e uma fumacinha;
-}
-
-
 Aqui contem todas as iteracoes de cada peca com qual respectiva peca ela iterage.
 
 Iteracao{
@@ -71,6 +49,10 @@ Iteracao{
 	Bispo:
 		BS - Bispo promovendo Soldado;
 	
+		Nas imagen mais detalhadas deve conter algo que diga quantos estão feridos
+		no grup e mostre o Bispo curando apenas um.
+		Tipo a peca esta com 1 de vida, isso quer dizer que na imagem vai mostra 2
+		feridos e um sendo curado.
 		BTF - Bispo curando Testudo, repare que eles devem estar "fechado";
 		
 		BC - Bispo curando Cavaleiro;

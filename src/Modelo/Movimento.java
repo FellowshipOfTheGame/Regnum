@@ -72,7 +72,11 @@ public final class Movimento implements Cloneable, Serializable{
      * @return 
      */
     public int[] getCampoDestino() {
-        return campo[1];
+        try{
+            return campo[1];
+        }catch(Exception e){
+            return null;
+        }
     } 
     
 

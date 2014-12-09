@@ -322,6 +322,7 @@ public class Xadrez {
                 }
                 cClicado.addJogador2(ordem + 1);
                 cClicado.addPeca2(PRINCIPE, tratadores[PRINCIPE - 1].getVidaTotal());
+                return true;
             }
         } else if (movimentoRealizado.getTipoMovimento() == Movimento.INTERAGIR1 && cClicado.peca1() == TESTUDOS && cClicado.peca2() == 0) { // Abrindo TESTUDOS
             int[] iDestino = movimentoRealizado.getCampoDestino();
