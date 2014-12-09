@@ -6,8 +6,6 @@ package Controle.Rede;
 
 import Modelo.Ator.Ator;
 import Controle.Controle;
-import Controle.FileChooser;
-import Controle.SaveLoad;
 import Modelo.Movimento;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -43,7 +41,8 @@ public class Cliente extends Thread{
     
     @Override
     public void run(){
-        FileChooser.addExtension(".Regnum", "Arquivo com os movimento salvos .Regnum");
+        //TODO gravar e assistir
+        //FileChooser.addExtension(".Regnum", "Arquivo com os movimento salvos .Regnum");
         
         try {
             Socket conexao = new Socket(ip, porta);

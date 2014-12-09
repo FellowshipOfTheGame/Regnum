@@ -56,6 +56,8 @@ public class Sala {
                 jogadoresVivos.add(true);
                 nJogadores++;
 
+                //TODO gravar e assistir
+                
                 return false;
             }
         }
@@ -106,6 +108,7 @@ public class Sala {
     
     public void iniciaPartida() {
         this.controle.iniciaPartida();
+        //TODO gravar e assistir
     }
 
     public String getIp() {

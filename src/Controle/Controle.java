@@ -162,9 +162,10 @@ public class Controle {
         if (movimentoRealizado.getTipoMovimento() == Movimento.ASSOPRO) {
             this.xadrez.realizarAcao(ordem, movimentoRealizado.getCampoSelecionado(), movimentoRealizado.getTipoMovimento());
         } else {
-            if (this.gavar) {
+            //TODO gravar e assistir
+            /*if (this.gavar) {
                 SaveLoad.save(movimentoRealizado);
-            }
+            }*/
             if (!this.xadrez.tratarExecaoMovimento(ordem, movimentoRealizado)) {
                 if (movimentoRealizado.getTipoMovimento() <= Movimento.PEGARP2) {
                     this.xadrez.realizarMovimento(ordem, movimentoRealizado.getCampoSelecionado(), movimentoRealizado.getCampoDestino(), movimentoRealizado.getTipoMovimento());

@@ -5,7 +5,6 @@
 package Visual;
 
 import Controle.Controle;
-import Controle.FileChooser;
 import Visual.Plano.Tela2D;
 import java.awt.Color;
 import java.awt.Frame;
@@ -46,6 +45,11 @@ public class Janela extends javax.swing.JFrame {
         jTAChat.setVisible(false);
         jTMensagem.setVisible(false);
         jBMensagem.setVisible(false);
+        
+        //esse objetos estão invisivei pois nao esta implementado o grava e assistir
+        //TODO gravar e assistir
+        jCBGravar.setVisible(false);
+        jRBAssistirPartida.setVisible(false);
 
         corAtor = Color.BLUE;
     }
@@ -349,7 +353,7 @@ public class Janela extends javax.swing.JFrame {
     private void jBOKInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOKInicialActionPerformed
         if (this.jRBAssistirPartida.isSelected()) {
             this.controle.setEstado(Controle.ASSISTINDO);
-            FileChooser.getOpenDialog();
+            //FileChooser.getOpenDialog();
             gravarGame();
         } else {
             this.jPRede.setVisible(true);
@@ -399,7 +403,7 @@ public class Janela extends javax.swing.JFrame {
         controle.conectaCliente();
 
         if (this.jCBGravar.isSelected()) {
-            FileChooser.getSaveDialog();
+            //FileChooser.getSaveDialog();
             gravarGame();
         }
 
