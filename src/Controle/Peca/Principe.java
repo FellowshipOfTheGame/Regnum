@@ -99,8 +99,9 @@ public class Principe extends Peca {
         if (!amigo.campoCheio()) {
             if (campoSelecionado.campoAmigo(pecaPega, amigo)) {//Verifca se as pecas nas faces acima são um amigo
                 int pecaTipo = amigo.peca1();
-                int[] parametros = new int[1];
+                int[] parametros = new int[2];
                 parametros[0] = amigo.jogador1();
+                parametros[1] = amigo.vidaPeca1();
                 if (amigo(pecaTipo, parametros)) {
                     if (selecionarCampo) {
                         amigo.setFundoAzul();
@@ -117,7 +118,7 @@ public class Principe extends Peca {
 
     @Override
     public boolean amigo(int pecaTipo, int[] parametros) {
-        if (pecaTipo == Xadrez.CAVALEIRO) {
+        if (pecaTipo == Xadrez.CAVALEIRO && parametros[1]==Xadrez.getTratadores()[Xadrez.CAVALEIRO-1].vidaTotal) {
             return true;
         } else if (pecaTipo == Xadrez.BISPO) {
             return !Xadrez.existePeca(parametros[0], Xadrez.REI);

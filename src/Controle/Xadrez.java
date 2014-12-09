@@ -276,7 +276,7 @@ public class Xadrez {
         Campo cClicado = tabuleiro.campoSelecionado(iClicado[0], iClicado[1], iClicado[2]);
 
         if (cClicado.pecasAmigas()) {
-            if (cClicado.peca2() == SOLDADO && (cClicado.peca1()==BISPO || cClicado.peca1()==DAMA)) {
+            if (cClicado.peca2() == SOLDADO && (cClicado.peca1() == BISPO || cClicado.peca1() == DAMA)) {
                 int[] iDestino = movimentoRealizado.getCampoDestino();
                 Campo cDestino = tabuleiro.campoSelecionado(iDestino[0], iDestino[1], iDestino[2]);
                 int p1 = cClicado.peca1();
@@ -306,7 +306,7 @@ public class Xadrez {
 //                        }
                 }
                 return true;
-            }else if (cClicado.peca1() == REI && cClicado.peca2() == DAMA) {
+            } else if (cClicado.peca1() == REI && cClicado.peca2() == DAMA) {
                 int[] iDestino = movimentoRealizado.getCampoDestino();
                 Campo cDestino = tabuleiro.campoSelecionado(iDestino[0], iDestino[1], iDestino[2]);
 
@@ -390,15 +390,16 @@ public class Xadrez {
                 //cClicado.moverPecaFrente();
                 obrigatorio = !tratadores[cClicado.peca2() - 1].realizaIteracao(pecaClicada, cClicado);
             }
-        }
-        if (obrigatorio) {
-            if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                campoSelecionado = cClicado;
-                movimentoObrigatorio = true;
-            } else {
-                movimentoObrigatorio = false;
+            if (obrigatorio) {
+                if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
+                    campoSelecionado = cClicado;
+                    movimentoObrigatorio = true;
+                } else {
+                    movimentoObrigatorio = false;
+                }
             }
         }
+
     }
 
     public boolean temCampoSelecionado() {

@@ -168,7 +168,7 @@ public class Sala {
         this.jogadoresVivos.add(ordem, false);
     }
 
-    void jogadorVencedor(int ordem) {
+    public void jogadorVencedor(int ordem) {
         this.controle.jogadorVencedor(ordem);
     }
 }

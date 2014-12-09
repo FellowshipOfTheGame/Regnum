@@ -91,7 +91,7 @@ public class Cliente extends Thread{
                 } catch (ClassNotFoundException ex) {
                     System.out.println("cliente erro 1");
                     
-                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                     
                     return;
                 }
@@ -99,7 +99,7 @@ public class Cliente extends Thread{
             
         } catch (UnknownHostException ex) {
             System.out.println("cliente erro 2");
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             System.out.println("servidor caiu");
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);

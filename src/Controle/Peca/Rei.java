@@ -75,7 +75,7 @@ public class Rei extends Peca{
         if(!amigo.campoCheio()){
             if(campoSelecionado.campoAmigo(pecaPega, amigo)){//Verifca se as pecas nas faces acima são um amigo
                 int pecaTipo = amigo.peca1();
-                int[] parametros = null;
+                int[] parametros = new int[1];
                 if(amigo(pecaTipo, parametros)){
                     if(selecionarCampo){
                         amigo.setFundoAzul();
@@ -92,7 +92,7 @@ public class Rei extends Peca{
 
     @Override
     public boolean amigo(int pecaTipo, int[] parametros) {
-        return pecaTipo == Xadrez.CAVALEIRO || pecaTipo == Xadrez.DAMA || pecaTipo == Xadrez.TESTUDO;
+        return (pecaTipo == Xadrez.CAVALEIRO && parametros[0]==Xadrez.getTratadores()[Xadrez.CAVALEIRO-1].vidaTotal) || pecaTipo == Xadrez.DAMA || pecaTipo == Xadrez.TESTUDO;
     }
 
     @Override

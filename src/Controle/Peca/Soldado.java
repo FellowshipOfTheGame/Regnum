@@ -68,7 +68,7 @@ public class Soldado extends Peca {
                 int[] parametro = new int[3];
                 parametro[0] = amigo.getColuna();
                 parametro[1] = amigo.getLinha();
-                parametro[3] = amigo.vidaPeca1();
+                parametro[2] = amigo.vidaPeca1();
                 if (amigo(pecaTipo, parametro)) {
                     if (selecionarCampo) {
                         campoSelecionado.setFundoAmarelo();

@@ -212,7 +212,7 @@ public class Campo implements Cloneable{
      */
     public int peca1Vida(int parametro){
         if(parametro < 0){
-            if((this.id % 10000) / 1000>1){
+            if((((this.id % 10000) / 1000)+parametro)>0){
                 this.id += 1000*parametro; //Retirando vida
                 return 0;
             }    
@@ -234,7 +234,7 @@ public class Campo implements Cloneable{
      */
     public int peca2Vida(int parametro){
         if(parametro < 0){
-            if(this.id % 10>1){
+            if((this.id % 10 + parametro)>0){
                 this.id += parametro; //Retirando vida
                 return 0;
             }    

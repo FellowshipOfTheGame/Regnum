@@ -84,7 +84,22 @@ public abstract class Peca {
 
     public void realizaAcao(Campo clicado) {
         if (clicado.pecasInimigas()) {
-            clicado.peca2Vida(-1 * Xadrez.getTratadores()[clicado.peca2() - 1].fatorVida);
+            int dano = Xadrez.getTratadores()[clicado.peca2() - 1].fatorVida;
+            dano = (clicado.peca1() == Xadrez.CAVALEIRO && clicado.vidaPeca1() > 1) ? dano * 2 : dano;//faz com que alguem montado no cavalo de dano em dobro
+            if (clicado.peca2() == Xadrez.TESTUDO) {
+                for (int i = 0; i < dano; i++) {
+                    Testudo.diminuirVida(clicado);
+                }
+            } else if (clicado.peca2() == Xadrez.CAVALEIRO && clicado.vidaPeca2() > 1) {
+                int pecaMontadaNoCavalo = clicado.getId() % 1000;
+                clicado.matarPeca2();
+                clicado.addJogador2(pecaMontadaNoCavalo / 100);
+                //as pecas que montam no cavalo sempre tem 1 de vida
+                //a peça que estava nas costas do cavalo era sua vida
+                clicado.addPeca2((pecaMontadaNoCavalo % 10) - 1, 1);
+            } else {
+                clicado.peca2Vida(-1 * dano);
+            }
         }
     }
 
