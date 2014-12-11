@@ -76,6 +76,7 @@ public class Rei extends Peca{
             if(campoSelecionado.campoAmigo(pecaPega, amigo)){//Verifca se as pecas nas faces acima são um amigo
                 int pecaTipo = amigo.peca1();
                 int[] parametros = new int[1];
+                parametros[0] = amigo.vidaPeca1();
                 if(amigo(pecaTipo, parametros)){
                     if(selecionarCampo){
                         amigo.setFundoAzul();

@@ -116,6 +116,9 @@ public class Soldado extends Peca {
             if (destino.peca2() == Xadrez.BISPO && destino.getLinha() == 0 && destino.getColuna() == 0) {
                 destino.moverPecaFrente();
                 return false;
+            }else if(destino.peca2() == Xadrez.CAVALEIRO){
+                destino.moverPecaFrente();
+                return false;
             }
         }
 

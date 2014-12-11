@@ -142,6 +142,8 @@ public class Cavaleiro extends Peca {
             if (destino.peca2() == Xadrez.REI || destino.peca2() == Xadrez.PRINCIPE) {
                 destino.peca1Vida(destino.peca2()); //isso eh um pog para colocar a peca junto com o cavalo
                 destino.matarPeca2();
+            }else if(destino.peca2() == Xadrez.SOLDADO){
+                return false;
             }
         }
 

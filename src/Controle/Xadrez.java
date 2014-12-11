@@ -119,7 +119,7 @@ public class Xadrez {
                     } else {
                         /*if (campoSelecionado.peca1() == CAVALEIRO && campoSelecionado.vidaPeca1() == tratadores[CAVALEIRO - 1].getVidaTotal()) {
                          temCampoSelecionado = true;
-                         pecaPega = Movimento.INTERAGIR1;
+                         pecaPega = Movimento.PEGARP1;
                          } else {*/
                         pecaPega = Movimento.INTERAGIR1;
                         campoSelecionado.setFundoAzul();
@@ -129,10 +129,10 @@ public class Xadrez {
                 }
             }
         } else {
-            if (campoSelecionado.peca1() == TESTUDO) {
-                pecaPega = Movimento.PEGARP1;
-                temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(pecaPega, campoSelecionado, true);
+            if (campoSelecionado.peca2() == TESTUDO) { //Movimento do Rei passando pela formacao do TESTUDO
                 pecaPega = Movimento.PEGARP2;
+                temCampoSelecionado = tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, true);
+                pecaPega = Movimento.PEGARP1;
             } else if (campoSelecionado.peca1() == DAMA && campoSelecionado.peca2() == SOLDADO) {
                 pecaPega = Movimento.PEGARP1;
                 temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(pecaPega, campoSelecionado, true);
@@ -140,11 +140,11 @@ public class Xadrez {
                 Controle.instanciaControle().setEstado(Controle.OPCAO_CAMPO);
                 AmbienteOpcao.setReset(false);
                 if (campoSelecionado.pecasAmigas()) {
+                    temCampoSelecionado = true;
                     pecaPega = Movimento.INTERAGIR1;
-                } else {
-                    pecaPega = Movimento.ATACAR1;
-                }
-                temCampoSelecionado = true;
+                    campoSelecionado.setFundoAzul();
+                } 
+                
             }
         }
 
@@ -195,9 +195,9 @@ public class Xadrez {
                         temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true, campoSelecionado.vidaPeca1());
                     } else if (campoSelecionado.peca1() == CAVALEIRO) { //Montando ou desmontando do Cavaleiro
                         temCampoSelecionado = false;
+                        movimentoObrigatorio = false;
                         Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
                         pecaPega = Movimento.INTERAGIR1;
-                        temCampoSelecionado = false;
                         Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                     }
                 } else {//Atacando uma peca que esta no mesmo campo
@@ -217,6 +217,9 @@ public class Xadrez {
             } else if (botaoClicado == 2) {
                 //if (tratadores[campoSelecionado.peca1() - 1].amigo(Movimento.PEGARP1, campoSelecionado)) {
                 if (pecaPega == Movimento.INTERAGIR1) {
+                    campoSelecionado.setFundo();
+                    temCampoSelecionado = false;
+                    movimentoObrigatorio = false;
                     Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
                     Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                 }
@@ -227,8 +230,7 @@ public class Xadrez {
                  Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                  }
                  }*/
-                campoSelecionado.setFundo();
-                temCampoSelecionado = false;
+
             } else if (botaoClicado == 3) {
                 //if (tratadores[campoSelecionado.peca2() - 1].amigo(Movimento.PEGARP2, campoSelecionado)) {
                 if (pecaPega == Movimento.INTERAGIR1) {
@@ -247,10 +249,10 @@ public class Xadrez {
         if (campoSelecionado != tabuleiro.campoSelecionado(face, linha, coluna)) {
             int corFundo = tabuleiro.campoSelecionado(face, linha, coluna).getCorFundo();
             if (corFundo != MapaImagens.PRETO && corFundo != MapaImagens.BRANCO) {
-                if (movimentoObrigatorio && campoSelecionado.peca1() == TESTUDO && campoSelecionado.peca2() == REI) { //Rei saindo da torre
-                    pecaPega = Movimento.PEGARP1;//isso nao esta sendo usado
-                    tratadores[campoSelecionado.peca1() - 1].pintaCampo(pecaPega, campoSelecionado, false);
-                    pecaPega = Movimento.PEGARP2;
+                if (movimentoObrigatorio && campoSelecionado.peca2() == TESTUDO && campoSelecionado.peca1() == REI) { //Rei saindo da torre
+                    pecaPega = Movimento.PEGARP2;//isso nao esta sendo usado
+                    tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, false);
+                    pecaPega = Movimento.PEGARP1;
                 } else if (movimentoObrigatorio && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
                     tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
                 } else if (movimentoObrigatorio && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == SOLDADO) {//Tratatando soldado nascido
@@ -285,9 +287,9 @@ public class Xadrez {
                     if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
                         campoSelecionado = cDestino;
                         movimentoObrigatorio = true;
-                    } else {
+                    } /*else {
                         movimentoObrigatorio = false;
-                    }
+                    }*/
                 }
                 if (p1 == BISPO) {//Promocao de SOLDADO
                     cClicado.addPeca1(movimentoRealizado.getTipoMovimento(), tratadores[movimentoRealizado.getTipoMovimento() - 1].getVidaTotal());//Promovendo soldado
@@ -316,12 +318,16 @@ public class Xadrez {
                     if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
                         campoSelecionado = cDestino;
                         movimentoObrigatorio = true;
-                    } else {
+                    }/* else {
                         movimentoObrigatorio = false;
-                    }
+                    }*/
                 }
                 cClicado.addJogador2(ordem + 1);
                 cClicado.addPeca2(PRINCIPE, tratadores[PRINCIPE - 1].getVidaTotal());
+                if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
+                    campoSelecionado = cClicado;
+                    movimentoObrigatorio = true;
+                }
                 return true;
             }
         } else if (movimentoRealizado.getTipoMovimento() == Movimento.INTERAGIR1 && cClicado.peca1() == TESTUDOS && cClicado.peca2() == 0) { // Abrindo TESTUDOS
@@ -394,9 +400,9 @@ public class Xadrez {
                 if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
                     campoSelecionado = cClicado;
                     movimentoObrigatorio = true;
-                } else {
+                }/* else {
                     movimentoObrigatorio = false;
-                }
+                }*/
             }
         }
 
