@@ -10,7 +10,7 @@
       <Dimension value="[600, 600]"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[600, 700]"/>
+      <Dimension value="[600, 750]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -32,16 +32,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPainel" pref="606" max="32767" attributes="0"/>
-          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPAtor" alignment="0" pref="606" max="32767" attributes="0"/>
+          <Component id="jPRede" pref="606" max="32767" attributes="0"/>
+          <Component id="jPInicial" alignment="0" pref="606" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <Component id="jTMensagem" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jBMensagem" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jPAtor" alignment="0" pref="606" max="32767" attributes="0"/>
-          <Component id="jPRede" pref="606" max="32767" attributes="0"/>
-          <Component id="jPInicial" alignment="0" pref="606" max="32767" attributes="0"/>
+          <Component id="jPainel" alignment="0" pref="606" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -52,8 +52,6 @@
               <Component id="jPRede" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPAtor" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPainel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="103" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -61,6 +59,9 @@
                   <Component id="jBMensagem" min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="jTMensagem" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPainel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -118,60 +119,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTAChat">
-          <Properties>
-            <Property name="columns" type="int" value="20"/>
-            <Property name="rows" type="int" value="5"/>
-            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[600, 100]"/>
-            </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[600, 100]"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[600, 100]"/>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Component class="javax.swing.JButton" name="jBMensagem">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Enviar Mensagem"/>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[200, 29]"/>
-        </Property>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[200, 29]"/>
-        </Property>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[200, 29]"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBMensagemActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTMensagem">
-      <Properties>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 50]"/>
-        </Property>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 50]"/>
-        </Property>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 50]"/>
-        </Property>
-      </Properties>
-    </Component>
     <Container class="javax.swing.JPanel" name="jPInicial">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -418,5 +365,66 @@
         </Component>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Properties>
+        <Property name="autoscrolls" type="boolean" value="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="jTAChat">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
+            <Property name="dragEnabled" type="boolean" value="true"/>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[600, 100]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[600, 100]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[600, 10000000]"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JTextField" name="jTMensagem">
+      <Properties>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 50]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 50]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 50]"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBMensagem">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enviar Mensagem"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[200, 29]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[200, 29]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[200, 29]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBMensagemActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

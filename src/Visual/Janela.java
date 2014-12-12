@@ -65,10 +65,6 @@ public class Janela extends javax.swing.JFrame {
 
         jPainel = painel;
         jBIniciarPartida = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTAChat = new javax.swing.JTextArea();
-        jBMensagem = new javax.swing.JButton();
-        jTMensagem = new javax.swing.JTextField();
         jPInicial = new javax.swing.JPanel();
         jRBRede = new javax.swing.JRadioButton();
         jRBAssistirPartida = new javax.swing.JRadioButton();
@@ -83,11 +79,15 @@ public class Janela extends javax.swing.JFrame {
         jBOKAtor = new javax.swing.JButton();
         jCBGravar = new javax.swing.JCheckBox();
         jBCor = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTAChat = new javax.swing.JTextArea();
+        jTMensagem = new javax.swing.JTextField();
+        jBMensagem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(2024, 1000));
         setMinimumSize(new java.awt.Dimension(600, 600));
-        setPreferredSize(new java.awt.Dimension(600, 700));
+        setPreferredSize(new java.awt.Dimension(600, 750));
 
         jPainel.setMaximumSize(new java.awt.Dimension(2000, 1000));
         jPainel.setMinimumSize(new java.awt.Dimension(1, 1));
@@ -119,27 +119,6 @@ public class Janela extends javax.swing.JFrame {
                 .addComponent(jBIniciarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        jTAChat.setColumns(20);
-        jTAChat.setRows(5);
-        jTAChat.setMaximumSize(new java.awt.Dimension(600, 100));
-        jTAChat.setMinimumSize(new java.awt.Dimension(600, 100));
-        jTAChat.setPreferredSize(new java.awt.Dimension(600, 100));
-        jScrollPane1.setViewportView(jTAChat);
-
-        jBMensagem.setText("Enviar Mensagem");
-        jBMensagem.setMaximumSize(new java.awt.Dimension(200, 29));
-        jBMensagem.setMinimumSize(new java.awt.Dimension(200, 29));
-        jBMensagem.setPreferredSize(new java.awt.Dimension(200, 29));
-        jBMensagem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMensagemActionPerformed(evt);
-            }
-        });
-
-        jTMensagem.setMaximumSize(new java.awt.Dimension(400, 50));
-        jTMensagem.setMinimumSize(new java.awt.Dimension(400, 50));
-        jTMensagem.setPreferredSize(new java.awt.Dimension(400, 50));
 
         jPInicial.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPInicial.setMaximumSize(new java.awt.Dimension(34, 40));
@@ -303,19 +282,46 @@ public class Janela extends javax.swing.JFrame {
                 .addGap(0, 4, Short.MAX_VALUE))
         );
 
+        jScrollPane1.setAutoscrolls(true);
+
+        jTAChat.setEditable(false);
+        jTAChat.setColumns(20);
+        jTAChat.setRows(5);
+        jTAChat.setWrapStyleWord(true);
+        jTAChat.setDragEnabled(true);
+        jTAChat.setEnabled(false);
+        jTAChat.setMaximumSize(new java.awt.Dimension(600, 100));
+        jTAChat.setMinimumSize(new java.awt.Dimension(600, 100));
+        jTAChat.setPreferredSize(new java.awt.Dimension(600, 10000000));
+        jScrollPane1.setViewportView(jTAChat);
+
+        jTMensagem.setMaximumSize(new java.awt.Dimension(400, 50));
+        jTMensagem.setMinimumSize(new java.awt.Dimension(400, 50));
+        jTMensagem.setPreferredSize(new java.awt.Dimension(400, 50));
+
+        jBMensagem.setText("Enviar Mensagem");
+        jBMensagem.setMaximumSize(new java.awt.Dimension(200, 29));
+        jBMensagem.setMinimumSize(new java.awt.Dimension(200, 29));
+        jBMensagem.setPreferredSize(new java.awt.Dimension(200, 29));
+        jBMensagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBMensagemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPainel, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addComponent(jPAtor, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jPRede, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jPInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPAtor, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-            .addComponent(jPRede, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-            .addComponent(jPInicial, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jPainel, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,13 +332,14 @@ public class Janela extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPAtor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTMensagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTMensagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -497,7 +504,7 @@ public class Janela extends javax.swing.JFrame {
     }
 
     public void respostaChat(String time, String mensagemChat, Color c) {
-        //this.jTAChat.(c);
+        this.jTAChat.setDisabledTextColor(c);
         this.jTAChat.append(" " + time + ": " + mensagemChat + "\n");
     }
     

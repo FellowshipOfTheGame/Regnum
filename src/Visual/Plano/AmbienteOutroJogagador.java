@@ -35,17 +35,17 @@ public class AmbienteOutroJogagador extends AmbienteJogo{
         super.desenha(g2d);
         
         if (!this.iniciado) {
-            this.iniciaTela();
+            this.iniciaAnterior();
         }
         
         g2d.translate(deltaX, 0);
         
-        g2d.setColor(Color.white);
-        g2d.fillRect(0, 0, this.larguraAnterior, this.alturaAnterior);
+        super.desenhaQuadro(g2d, larguraAnterior, alturaAnterior);
         
         Image imagesJogador = this.mapaImagens.getImageLider(controle.getJogadorAtual(), janela);
         int w = (this.larguraAnterior < this.alturaAnterior)? this.larguraAnterior : this.alturaAnterior;
-        g2d.drawImage(imagesJogador, 0, 0, w, w, janela);
+        w-=80;
+        g2d.drawImage(imagesJogador, this.larguraAnterior/2-w/2, this.alturaAnterior/2-w/2, w, w, janela);
         
         g2d.translate(-deltaX, 0);
         
@@ -61,7 +61,7 @@ public class AmbienteOutroJogagador extends AmbienteJogo{
         //janela.repaint();
     }
     
-    private void iniciaTela() {
+    private void iniciaAnterior() {
         this.iniciado = true;
         
         this.mapaImagens.iniciaJogo();

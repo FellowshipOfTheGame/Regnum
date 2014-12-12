@@ -33,6 +33,13 @@ public class MapaImagens {
      * timeCofingurando == false; 
      * Usar colorTimes
      */
+    private Image fundo;
+    private Image letra;
+    private Image frame;
+    private Image botao;
+    private Image bordinha;
+    private Image coracao;
+    
     private boolean timeCofingurando;
     private Color colorTime;
     private ArrayList<Color> colorTimes;
@@ -56,8 +63,15 @@ public class MapaImagens {
     public static final int VERMELHO = 5;
 
     public MapaImagens(Component comp) {
+        this.fundo = Toolkit.getDefaultToolkit().getImage("img/fundo_0.png");
+        this.letra = Toolkit.getDefaultToolkit().getImage("img/letra.png");
+        this.frame = Toolkit.getDefaultToolkit().getImage("img/moldura_32.png");
+        this.botao = Toolkit.getDefaultToolkit().getImage("img/botao_32.png");
+        this.bordinha = Toolkit.getDefaultToolkit().getImage("img/bordinha_12.png");
+        this.coracao = Toolkit.getDefaultToolkit().getImage("img/coracao.png");
+        
         trocador = new Imagem();
-
+        
         this.imgFundoimg = new Image[6];
         this.imgFundoimg[PRETO] = Toolkit.getDefaultToolkit().getImage("img/preto.png");
         this.imgFundoimg[PRETO] = trocador.imagemConverteCor(Color.BLACK, Color.GRAY, Color.PINK, this.imgFundoimg[PRETO], comp);
@@ -257,8 +271,14 @@ public class MapaImagens {
     }
 
     public Image getImageLider(int jogadorAtual, Tela2D janela) {
-        Image retorno = this.pecasHash.get("p" + Xadrez.REI + "" + Xadrez.getTratadores()[Xadrez.REI - 1].getVidaTotal() + ".png");
+        Image retorno = this.pecasHash.get("p" + Xadrez.REI + "" + 1 + ".png");
         retorno = trocador.imagemConverteCor(Color.blue, colorTimes.get(jogadorAtual), Color.PINK, retorno, janela);
+        return retorno;
+    }
+    
+    public Image getImageLider(Color jogadorAtual, Tela2D janela) {
+        Image retorno = this.pecasHash.get("p" + Xadrez.REI + "" + 1 + ".png");
+        retorno = trocador.imagemConverteCor(Color.blue, jogadorAtual, Color.PINK, retorno, janela);
         return retorno;
     }
 
@@ -268,4 +288,96 @@ public class MapaImagens {
         return retorno;
     }
 
+    public Image getFundo() {
+        return fundo;
+    }
+
+    public Image getLetra() {
+        return letra;
+    }
+
+    public Image getFrame() {
+        return frame;
+    }
+
+    public ArrayList<Image> getBotao(Campo campo, int pecaPega, Tela2D comp) {
+        int id = campo.getId();
+
+        int i = (id % 10000000) / 1000000;
+        int j1 = (id % 1000000) / 100000;
+        int p1 = (id % 100000) / 10000;
+        int v1 = (id % 10000) / 1000;
+        int j2 = (id % 1000) / 100;
+        int p2 = (id % 100) / 10;
+        int v2 = (id % 10);
+        
+        Image retorno = null;
+        ArrayList<Image> listaOpcao = null;
+
+        if (pecaPega == Movimento.PEGARP1) {
+            if (p1 == Xadrez.TESTUDOS) {
+                listaOpcao = new ArrayList<Image>();
+                retorno = trocador.imagemConverteCor(Color.blue, Color.green, Color.PINK, botao, comp);
+                listaOpcao.add(retorno);                
+                retorno = trocador.imagemConverteCor(Color.blue);
+                listaOpcao.add(retorno);
+            } else if (p1 == Xadrez.CAVALEIRO) {
+                listaOpcao = new ArrayList<Image>();
+                retorno = trocador.imagemConverteCor(Color.blue, Color.green, Color.PINK,  botao, comp);
+                listaOpcao.add(retorno);                
+                retorno = trocador.imagemConverteCor(Color.blue);
+                listaOpcao.add(retorno);
+            }
+        } else if (pecaPega == Movimento.INTERAGIR1) {
+            listaOpcao = new ArrayList<Image>();
+            if (p2 == Xadrez.SOLDADO && p1 == Xadrez.BISPO) {
+                if (!Xadrez.existePeca(j1, Xadrez.DAMA)) {
+                    listaOpcao.add(botao);
+                }
+                for (int u = Xadrez.BISPO; u <= Xadrez.TESTUDOS; u++) {                    
+                    listaOpcao.add(botao);
+                }
+            } else {
+                retorno = trocador.imagemConverteCor(Color.blue, Color.green, Color.PINK,  botao, comp);
+                listaOpcao.add(retorno);                
+
+                listaOpcao.add(retorno);
+
+                if (p1 == Xadrez.CAVALEIRO && v1 == Xadrez.getTratadores()[Xadrez.CAVALEIRO - 1].getVidaTotal()) {
+                    retorno = trocador.imagemConverteCor(Color.blue);
+                    listaOpcao.add(retorno);
+                } else {
+                    if (Xadrez.getTratadores()[p1 - 1].amigo(Movimento.PEGARP1, campo)) {
+                        retorno = trocador.imagemConverteCor(Color.blue);
+                        listaOpcao.add(retorno);
+                    }
+                    if (Xadrez.getTratadores()[p2 - 1].amigo(Movimento.PEGARP2, campo)) {
+                        retorno = trocador.imagemConverteCor(Color.blue);
+                        listaOpcao.add(retorno);
+                    }
+                }
+            }
+        } else if (pecaPega == Movimento.ATACAR1 || pecaPega == Movimento.ATACAR2) {
+            listaOpcao = new ArrayList<Image>();
+            retorno = trocador.imagemConverteCor(Color.blue, Color.green, Color.PINK,  botao, comp);
+            listaOpcao.add(retorno);                
+            retorno = trocador.imagemConverteCor(Color.red);
+            listaOpcao.add(retorno);
+        }
+
+        return listaOpcao;
+    }
+
+    public Image getBordinha() {
+        return bordinha;
+    }
+    
+    
+
+    public Image getCoracao() {
+        return coracao;
+    }
+
+    
 }
+

@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -30,6 +31,7 @@ public class AmbienteOpcao extends AmbienteJogo{
     private static boolean resetar;
     
     private ArrayList<Image> imagesOpcao;
+    private ArrayList<Image> imagesbotao;
     private int larguraBotao;
     
     public AmbienteOpcao(Tela2D janela) {
@@ -48,12 +50,15 @@ public class AmbienteOpcao extends AmbienteJogo{
         
         g2d.translate(deltaX, 0);
         
-        g2d.setColor(Color.white);
-        g2d.fillRect(0, 0, this.larguraTela, this.alturaTela);
+        super.desenhaQuadro(g2d, larguraTela, alturaTela);
         
-        int y = 10;
-        for (Image imagePeca : imagesOpcao) {
+        int y = 40;
+        Iterator<Image> itBotao = imagesbotao.iterator();
+        for (Iterator<Image> itOpcao = imagesOpcao.iterator(); itOpcao.hasNext();) {
+            Image imagePeca = itOpcao.next();
+            Image imageBotao = itBotao.next();
             if(imagePeca != null){
+                g2d.drawImage(imageBotao, this.larguraTela/2 - this.larguraBotao/2-5, y+5, this.larguraBotao+10, this.larguraBotao+10, janela);
                 g2d.drawImage(imagePeca, this.larguraTela/2 - this.larguraBotao/2, y, this.larguraBotao, this.larguraBotao, janela);
                 y += this.larguraBotao + 10;
             }
@@ -71,7 +76,7 @@ public class AmbienteOpcao extends AmbienteJogo{
             double x = (e.getX() - deltaX);
             double y = e.getY();
             
-            int h = 10;
+            int h = 40;
             if((this.larguraTela/2 - this.larguraBotao/2) < x && (this.larguraTela/2 + this.larguraBotao/2) > x){
                 for (int i=0; i<imagesOpcao.size(); i++) {
                     if(h < y && (h + this.larguraBotao) > y){
@@ -103,7 +108,8 @@ public class AmbienteOpcao extends AmbienteJogo{
         this.mapaImagens.iniciaJogo();
         
         this.imagesOpcao = this.mapaImagens.getImageOpcao(Xadrez.getCampoSelecianado(), Xadrez.getPecaPega(), janela);
-        this.larguraBotao = (this.alturaTela-(imagesOpcao.size()+1)*10) / imagesOpcao.size();
+        this.imagesbotao = this.mapaImagens.getBotao(Xadrez.getCampoSelecianado(), Xadrez.getPecaPega(), janela);
+        this.larguraBotao = (this.alturaTela-80-(imagesOpcao.size()+1)*10) / imagesOpcao.size();
         
         //janela.repaint();
     }

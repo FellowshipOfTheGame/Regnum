@@ -18,7 +18,6 @@ import java.awt.Image;
 public class AmbienteTime extends Ambiente {
 
     private int diametroMenor, diametroMaior;
-    private int deltaX;
     private int larguraAnterior;
     /**
      * Vetor de mapeamento das cores de cada campo
@@ -33,16 +32,11 @@ public class AmbienteTime extends Ambiente {
         super(janela);
     }
 
-    
-
     @Override
     public void atualizarCoordenadas() {
-        
-        int w = (janela.getWidth() * 2) / 3;
-        this.deltaX += (w - this.larguraAnterior) / 2;
-        this.larguraAnterior = w;
+        this.larguraAnterior = janela.getWidth();
 
-        diametroMaior = this.larguraAnterior / 9;
+        diametroMaior = (this.larguraAnterior-80) / 9;
         diametroMenor = diametroMaior; // o valor padrão do lasango menor é 100, mas para melhor proporção ele é refatorado
 
         //janela.repaint();
@@ -50,28 +44,30 @@ public class AmbienteTime extends Ambiente {
 
     @Override
     public void desenha(Graphics2D g2d) {
-        if(janela == null){
+        super.desenha(g2d);
+
+        if (janela == null) {
             return;
         }
-        
-        Image imagePeca, imageFundo; 
+
+        Image imagePeca, imageFundo;
 
         Ator a = controle.getUsuario();
         if (a == null) {
             return;
-        }else if (!this.iniciado) {
+        } else if (!this.iniciado) {
             this.iniciaTela(a);
         }
-
-        g2d.drawString(a.getTime(), larguraAnterior / 2 + diametroMenor + 60, 30);
-
         g2d.setColor(a.getCor());
-        g2d.fillRect(larguraAnterior / 2 + diametroMenor + 5, 5, 50, 50); //TODO substituir pelo rei com a cor trocada
-
+        g2d.fillRoundRect(40, 40, 102, 102, 20, 20);
+        g2d.drawString(a.getTime(), 146, 90);
+        Image imagesJogador = this.mapaImagens.getImageLider(a.getCor(), janela);
+        g2d.drawImage(imagesJogador, 41, 40, 100, 100, janela);
         g2d.setColor(Color.BLACK);
-        g2d.drawRect(larguraAnterior / 2 + diametroMenor + 5, 5, 50, 50);
+        g2d.drawRoundRect(40, 40, 102, 102, 20, 20);
+        //g2d.drawRect(40, 40, 102, 102);
 
-        g2d.translate(deltaX, 5);
+        g2d.translate(this.larguraAnterior/2, 40);
 
         for (int j = 1; j < 10; j++) {
             for (int k = 0; k < j; k++) {
@@ -79,25 +75,25 @@ public class AmbienteTime extends Ambiente {
                 g2d.drawImage(imageFundo, -diametroMenor / 2 * j + diametroMenor * k, (diametroMaior * (j - 1)) / 2, -diametroMenor / 2 * j + diametroMenor * (k + 1), (diametroMaior * (j + 1)) / 2, 0, 0, 128, 128, janela);
                 imagePeca = this.mapaImagens.getImagePeca(this.mapaCampo[(j * (j - 1)) / 2 + k], janela);
                 g2d.translate(-diametroMenor / 2 * j + diametroMenor * k, (diametroMaior * (j - 1)) / 2);
-                g2d.drawImage(imagePeca, diametroMenor/4, diametroMaior/4, (diametroMenor*3)/4, (diametroMaior*3)/4, 0, 0, 128, 128, janela);
+                g2d.drawImage(imagePeca, diametroMenor / 4, diametroMaior / 4, (diametroMenor * 3) / 4, (diametroMaior * 3) / 4, 0, 0, 128, 128, janela);
                 g2d.translate(diametroMenor / 2 * j - diametroMenor * k, -(diametroMaior * (j - 1)) / 2);
             }
         }
 
     }
-    
+
     /**
      * Configura as variaveis internas para um dado numero de jogadores e
      * imprime a tela novamente.
      *
      */
     private void iniciaTela(Ator a) {
-        if(janela == null){
+        if (janela == null) {
             return;
         }
-        
+
         mapaImagens.setCorTimeConfigurando(a.getCor());
-        
+
         mapaCampo = new int[45];
         Campo[] camposTemp = Tabuleiro.campos();
         for (int i = 0; i < 45; i++) {
@@ -108,9 +104,9 @@ public class AmbienteTime extends Ambiente {
 
         //janela.repaint();
     }
-    
+
     @Override
-    public void setInciarTela(){
+    public void setInciarTela() {
         this.iniciado = false;
     }
 }
