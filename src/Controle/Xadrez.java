@@ -18,6 +18,7 @@ import Modelo.Movimento;
 import Modelo.Tabuleiro;
 import Visual.Plano.AmbienteOpcao;
 import Visual.Plano.MapaImagens;
+import Visual.Plano.Tela2D;
 
 /**
  *
@@ -129,6 +130,7 @@ public class Xadrez {
                 }
             }
         } else {
+            Tela2D.aviso("Movimento Obrigatorio!");
             if (campoSelecionado.peca2() == TESTUDO) { //Movimento do Rei passando pela formacao do TESTUDO
                 pecaPega = Movimento.PEGARP2;
                 temCampoSelecionado = tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, true);
@@ -152,6 +154,7 @@ public class Xadrez {
     }
 
     public void realizarBotao(int botaoClicado) {
+        Tela2D.desligaAviso();
         if (movimentoObrigatorio && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
             int peca = (!existePeca(campoSelecionado.jogador1(), DAMA)) ? DAMA : BISPO;
             pecaPega = botaoClicado + peca;//Transforma o soldado para a peca que foi escolhida para promocao
@@ -246,6 +249,7 @@ public class Xadrez {
     }
 
     public boolean validaCampo(int face, int linha, int coluna) {
+        Tela2D.desligaAviso();
         if (campoSelecionado != tabuleiro.campoSelecionado(face, linha, coluna)) {
             int corFundo = tabuleiro.campoSelecionado(face, linha, coluna).getCorFundo();
             if (corFundo != MapaImagens.PRETO && corFundo != MapaImagens.BRANCO) {

@@ -9,9 +9,6 @@ import Modelo.Movimento;
 import Visual.Plano.MapaImagens;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +22,7 @@ public class Sala {
     private int nJogadores;
     private final ArrayList<String> jogadoresTime;
     private final ArrayList<Color> jogadoresCor;
-    private ArrayList<Boolean> jogadoresVivos;
+    private final ArrayList<Boolean> jogadoresVivos;
     
     private final Controle controle;
     
@@ -46,7 +43,7 @@ public class Sala {
         clienteConectou = false;
     }
     
-    public synchronized boolean timeExistente(Pacote p){
+    public synchronized int timeExistente(Pacote p){
         String jogador = p.getTime();
         Color cor =  p.getCor();
         if(MapaImagens.corPermitida(cor)){
@@ -58,11 +55,12 @@ public class Sala {
 
                 //TODO gravar e assistir
                 
-                return false;
+                return 0;
+            }else{
+                return 1;
             }
         }
-        
-        return true;
+        return 2;
     }
     
     public synchronized boolean removeTime(Pacote p){
@@ -87,6 +85,8 @@ public class Sala {
             this.cliente.start();
             
             clienteConectou = false;
+        }else{
+            this.cliente.conectar();
         }
     }
     

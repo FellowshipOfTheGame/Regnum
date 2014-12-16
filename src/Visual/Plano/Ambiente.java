@@ -40,7 +40,6 @@ public class Ambiente {
     }
 
     public void desenha(Graphics2D g2d) {
-        //TODO conseguir uma imagem para abertura
         Image imageFundo = this.mapaImagens.getFundo();
         Image imageLetra = this.mapaImagens.getLetra();
         Image imageBordinha = this.mapaImagens.getBordinha();

@@ -110,7 +110,7 @@ public class AmbienteOpcao extends AmbienteJogo{
         this.imagesOpcao = this.mapaImagens.getImageOpcao(Xadrez.getCampoSelecianado(), Xadrez.getPecaPega(), janela);
         this.imagesbotao = this.mapaImagens.getBotao(Xadrez.getCampoSelecianado(), Xadrez.getPecaPega(), janela);
         this.larguraBotao = (this.alturaTela-80-(imagesOpcao.size()+1)*10) / imagesOpcao.size();
-        
+        this.larguraBotao = (this.larguraBotao < this.larguraTela-80)? this.larguraBotao : this.larguraTela-80;
         //janela.repaint();
     }
 

@@ -7,6 +7,7 @@ package Controle.Rede;
 import Modelo.Ator.Ator;
 import Controle.Controle;
 import Modelo.Movimento;
+import Visual.Plano.Tela2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -62,7 +63,14 @@ public class Cliente extends Thread{
                         case Pacote.PROCURANDO:{
                             saida.writeObject(iniciarContato(mensagem));
                             break;
+                        }case Pacote.CLIENTE_FALHOU_COR:{
+                            Tela2D.aviso("Cor invalida!");
+                            break;
+                        }case Pacote.CLIENTE_FALHOU_NOME:{
+                            Tela2D.aviso("Nome invalida!");
+                            break;
                         }case Pacote.CLIENTE:{
+                            Tela2D.desligaAviso();
                             aprovadoContato(mensagem);
                             break;
                         }case Pacote.MOVIMENTO:{
@@ -72,6 +80,7 @@ public class Cliente extends Thread{
                             sala.iniciaPartida();
                             break;
                         }case Pacote.OUTRO_JOGADOR:{
+                            System.out.println("outro jogador");
                             if(!sala.isServidor()){
                                 sala.timeExistente(mensagem);
                             }
@@ -100,7 +109,7 @@ public class Cliente extends Thread{
             System.out.println("cliente erro 2");
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            System.out.println("servidor caiu");
+            Tela2D.aviso("Servidor Desconectado!");
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -169,4 +178,8 @@ public class Cliente extends Thread{
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }*/
+
+    public void conectar() {
+        mensagem.setProtocolo(Pacote.PROCURANDO);
+    }
 }

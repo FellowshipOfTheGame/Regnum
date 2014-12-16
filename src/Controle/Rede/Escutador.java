@@ -4,7 +4,9 @@
  */
 package Controle.Rede;
 
+import Controle.Controle;
 import static Controle.Rede.Servidor.sala;
+import Visual.Plano.Tela2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,7 +47,7 @@ public class Escutador extends Thread {
             
             entrada = new ObjectInputStream(conexao.getInputStream());
             
-            System.out.println("provendo");
+            //System.out.println("provendo");
             while (true) {
                 saida.writeObject(new Pacote());
                 saida.flush();
@@ -56,8 +58,19 @@ public class Escutador extends Thread {
                         return;
                     }
 
-                    if(!sala.timeExistente(mensagem)){
+                    int existeTime = sala.timeExistente(mensagem);
+                    if(existeTime==0){
                         break;
+                    }else if(existeTime==1){
+                        mensagem.setProtocolo(Pacote.CLIENTE_FALHOU_NOME);
+                        mensagem.setOrdem(sala.getnJogadores()-1);
+                        saida.writeObject(mensagem);
+                        saida.flush();
+                    }else if(existeTime==2){
+                        mensagem.setProtocolo(Pacote.CLIENTE_FALHOU_COR);
+                        mensagem.setOrdem(sala.getnJogadores()-1);
+                        saida.writeObject(mensagem);
+                        saida.flush();
                     }
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +99,9 @@ public class Escutador extends Thread {
                         outro.flush();
                     }
                 } catch (IOException ex) {
-                    System.out.println("jogador saiu");
+                    Controle c = Controle.instanciaControle();
+                    Tela2D.aviso("Jogador Desconectado! "+c.getUsuario().getOrdem());
+                    //this.sala.jogadorPerdeu(i);
                     //TODO fazer tratamento de saida de jogador
                     return;
                 } catch (ClassNotFoundException ex) {

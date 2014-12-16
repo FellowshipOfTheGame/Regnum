@@ -5,10 +5,9 @@ import Modelo.Ator.Ator;
 import Modelo.Campo;
 import Modelo.Movimento;
 import Visual.Janela;
+import Visual.Plano.Tela2D;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Classe responsavel pelo gerenciamento geral do jogo, como rede, telas,
@@ -135,15 +134,16 @@ public class Controle {
     public void campoSelecionado(int face, int linha, int coluna) {
         if (this.usuario.getOrdem() == this.jogadorAtual) {
             if (this.xadrez.temCampoSelecionado()) {
+                Tela2D.desligaAviso();
                 if (this.xadrez.validaCampo(face, linha, coluna)) {
                     Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
                     Campo destino = (Campo) Xadrez.getTabuleiro().campoSelecionado(face, linha, coluna).clone();
                     this.enviaMovimento(origem, destino, Xadrez.getPecaPega());
                 } else {
-                    //TODO fazer tratamento de erro
+                    Tela2D.aviso("Movimento invalido!");
                 }
             } else if (!this.xadrez.selecionarCampo(face, linha, coluna, usuario.getOrdem() + 1)) {
-                //TODO fazer tratamento de erro
+                Tela2D.aviso("Movimento invalido!");
             }
         }
     }

@@ -398,7 +398,7 @@ public class Janela extends javax.swing.JFrame {
 
     private void jBCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCorActionPerformed
         corAtor = JColorChooser.showDialog(Janela.this, "Escolher a color", corAtor);
-
+        corAtor = (corAtor==null)? Color.BLUE: corAtor;
         controle.setUsuario(jTFTime.getText(), corAtor);
         this.painel.iniciarTela();
 
