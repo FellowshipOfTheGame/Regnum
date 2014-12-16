@@ -88,6 +88,8 @@ public class AmbienteOpcao extends AmbienteJogo{
             }
             
             //janela.repaint();
+        }else if(e.getButton() == MouseEvent.BUTTON3){
+            this.controle.botaoSoltar();
         }
     }
 

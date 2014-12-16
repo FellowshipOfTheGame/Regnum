@@ -204,6 +204,10 @@ public class Controle {
         this.xadrez.realizarBotao(botaoClicado);
         this.setEstado(Controle.JOGANDO);
     }
+    
+    public void botaoSoltar() {
+        xadrez.soltarBotao();
+    }
     /*FIM-----------------------IMPLEMENTACAO VALIDACAO DAS ACOE----------------
      ------------------------------------E CRIACAO DO MOVIMENTO----------------*/
 

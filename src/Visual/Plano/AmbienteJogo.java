@@ -7,7 +7,6 @@ package Visual.Plano;
 import Controle.Controle;
 import Controle.Xadrez;
 import Modelo.Campo;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -317,6 +316,8 @@ public class AmbienteJogo extends Ambiente {
             }
             this.campoFLC = null;
             //janela.repaint();
+        }else if(e.getButton() == MouseEvent.BUTTON3){
+            this.controle.botaoSoltar();
         }
 
     }

@@ -145,12 +145,39 @@ public class Xadrez {
                     temCampoSelecionado = true;
                     pecaPega = Movimento.INTERAGIR1;
                     campoSelecionado.setFundoAzul();
-                } 
-                
+                }
+
             }
         }
 
         return temCampoSelecionado;
+    }
+
+    public void soltarBotao() {
+        Tela2D.desligaAviso();
+
+        int corFundo = tabuleiro.campoSelecionado(campoSelecionado.getFace(), campoSelecionado.getLinha(), campoSelecionado.getColuna()).getCorFundo();
+        if (corFundo != MapaImagens.PRETO && corFundo != MapaImagens.BRANCO) {
+            if (movimentoObrigatorio && campoSelecionado.peca2() == TESTUDO && campoSelecionado.peca1() == REI) { //Rei saindo da torre
+                pecaPega = Movimento.PEGARP2;//isso nao esta sendo usado
+                tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, false);
+                pecaPega = Movimento.PEGARP1;
+            } else if (movimentoObrigatorio && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (movimentoObrigatorio && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == SOLDADO) {//Tratatando soldado nascido
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (pecaPega == Movimento.INTERAGIR1 && campoSelecionado.peca1() == TESTUDOS) {
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false, campoSelecionado.vidaPeca1());
+            } else if (pecaPega % 2 == 0) {
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (pecaPega % 2 == 1) {
+                tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, false);
+            }
+
+        }
+        temCampoSelecionado = false;
+        Controle.instanciaControle().setEstado(Controle.JOGANDO);
+
     }
 
     public void realizarBotao(int botaoClicado) {
@@ -292,8 +319,9 @@ public class Xadrez {
                         campoSelecionado = cDestino;
                         movimentoObrigatorio = true;
                     } /*else {
-                        movimentoObrigatorio = false;
-                    }*/
+                     movimentoObrigatorio = false;
+                     }*/
+
                 }
                 if (p1 == BISPO) {//Promocao de SOLDADO
                     cClicado.addPeca1(movimentoRealizado.getTipoMovimento(), tratadores[movimentoRealizado.getTipoMovimento() - 1].getVidaTotal());//Promovendo soldado
@@ -323,8 +351,9 @@ public class Xadrez {
                         campoSelecionado = cDestino;
                         movimentoObrigatorio = true;
                     }/* else {
-                        movimentoObrigatorio = false;
-                    }*/
+                     movimentoObrigatorio = false;
+                     }*/
+
                 }
                 cClicado.addJogador2(ordem + 1);
                 cClicado.addPeca2(PRINCIPE, tratadores[PRINCIPE - 1].getVidaTotal());
@@ -405,8 +434,9 @@ public class Xadrez {
                     campoSelecionado = cClicado;
                     movimentoObrigatorio = true;
                 }/* else {
-                    movimentoObrigatorio = false;
-                }*/
+                 movimentoObrigatorio = false;
+                 }*/
+
             }
         }
 
@@ -435,5 +465,4 @@ public class Xadrez {
     public static Peca[] getTratadores() {
         return tratadores;
     }
-
 }
