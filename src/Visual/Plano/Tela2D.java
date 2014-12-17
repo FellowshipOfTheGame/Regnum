@@ -13,8 +13,6 @@ import Visual.Plano.Ambientes.Ambiente;
 import Visual.Plano.Ambientes.AmbienteOpcao;
 import Visual.Plano.Utilidades.MapaImagens;
 import Controle.Controle;
-import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
@@ -24,17 +22,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JPanel;
-import sun.font.CharToGlyphMapper;
-import sun.font.FileFont;
-import sun.font.FontScaler;
 
 /**
  *

@@ -233,7 +233,7 @@ public class AmbienteJogo extends Ambiente {
                     int maxVida = Xadrez.getTratadores()[p2-1].getVidaTotal();
                     
                     for (int i = 0; i < maxVida; i++) {
-                        g2d.drawImage(imageCoracaoPreto, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, 40, h / 5, h / 5, janela);
+                        g2d.drawImage(imageCoracaoPreto, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
                     }
                     for (int i = 0; i < v2; i++) {
                         g2d.drawImage(imageCoracao, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
@@ -270,7 +270,7 @@ public class AmbienteJogo extends Ambiente {
 
         nFaces = 2 * nJogadores;
         angle = 2 * Math.PI / nFaces;
-        rotacaoTabuleiro = 2 * angle * controle.getUsuario().getOrdem();
+        rotacaoTabuleiro = -2 * angle * controle.getUsuario().getOrdem();
 
         diametroMenor = 128 - (nFaces / 2 - 2) * 6; // o valor padrão do lasango menor é 100, mas para melhor proporção ele é refatorado
         diametroMaior = (int) (diametroMenor / Math.tan(angle / 2));
