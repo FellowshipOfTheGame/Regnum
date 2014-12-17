@@ -6,7 +6,7 @@ package Controle.Rede;
 
 import Controle.Controle;
 import Modelo.Movimento;
-import Visual.Plano.MapaImagens;
+import Visual.Plano.Utilidades.MapaImagens;
 import java.awt.Color;
 import java.util.ArrayList;
 

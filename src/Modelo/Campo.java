@@ -4,7 +4,7 @@
  */
 package Modelo;
 
-import Visual.Plano.MapaImagens;
+import Visual.Plano.Utilidades.MapaImagens;
 
 /**
  *

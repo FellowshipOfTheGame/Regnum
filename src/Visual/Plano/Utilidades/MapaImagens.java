@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Visual.Plano;
+package Visual.Plano.Utilidades;
 
 import Controle.Controle;
 import Controle.Xadrez;
 import Modelo.Campo;
 import Modelo.Movimento;
+import Visual.Plano.Tela2D;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -33,12 +34,13 @@ public class MapaImagens {
      * timeCofingurando == false; 
      * Usar colorTimes
      */
-    private Image fundo;
-    private Image letra;
-    private Image frame;
-    private Image botao;
-    private Image bordinha;
-    private Image coracao;
+    private final Image fundo;
+    private final Image letra;
+    private final Image frame;
+    private final Image botao;
+    private final Image bordinha;
+    private final Image coracao;
+    private final Image coracao_preto;
     
     private boolean timeCofingurando;
     private Color colorTime;
@@ -69,6 +71,7 @@ public class MapaImagens {
         this.botao = Toolkit.getDefaultToolkit().getImage("img/botao_32.png");
         this.bordinha = Toolkit.getDefaultToolkit().getImage("img/bordinha_12.png");
         this.coracao = Toolkit.getDefaultToolkit().getImage("img/coracao.png");
+        this.coracao_preto = Toolkit.getDefaultToolkit().getImage("img/coracao_preto.png");
         
         trocador = new Imagem();
         
@@ -149,23 +152,23 @@ public class MapaImagens {
         return retorno;
     }
 
-    Image getImageFundo(int id, Tela2D janela) {
+    public Image getImageFundo(int id, Tela2D janela) {
         int f = (id % 10000000) / 1000000;
 
         return this.imgFundoimg[f];
     }
 
-    Image getFundo(int cor) {
+    public Image getFundo(int cor) {
         return this.imgFundoimg[cor];
     }
 
-    void iniciaJogo() {
+    public void iniciaJogo() {
         timeCofingurando = false;
         Controle tmp = Controle.instanciaControle();
         colorTimes = tmp.getColorTimes();
     }
 
-    void setCorTimeConfigurando(Color cor) {
+    public void setCorTimeConfigurando(Color cor) {
         timeCofingurando = true;
         colorTime = cor;
     }
@@ -378,6 +381,12 @@ public class MapaImagens {
         return coracao;
     }
 
-    
+    public Image getCoracao_preto() {
+        return coracao_preto;
+    }
+
+    public static Image getBalao() {
+        return (Toolkit.getDefaultToolkit().getImage("img/balao.png"));
+    }
 }
 

@@ -16,8 +16,8 @@ import Controle.Peca.Testudos;
 import Modelo.Campo;
 import Modelo.Movimento;
 import Modelo.Tabuleiro;
-import Visual.Plano.AmbienteOpcao;
-import Visual.Plano.MapaImagens;
+import Visual.Plano.Ambientes.AmbienteOpcao;
+import Visual.Plano.Utilidades.MapaImagens;
 import Visual.Plano.Tela2D;
 
 /**
@@ -173,11 +173,9 @@ public class Xadrez {
             } else if (pecaPega % 2 == 1) {
                 tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, false);
             }
-
         }
         temCampoSelecionado = false;
         Controle.instanciaControle().setEstado(Controle.JOGANDO);
-
     }
 
     public void realizarBotao(int botaoClicado) {

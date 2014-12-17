@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Visual.Plano;
+package Visual.Plano.Ambientes;
 
 import Modelo.Ator.Ator;
 import Modelo.Campo;
 import Modelo.Tabuleiro;
+import Visual.Plano.Tela2D;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;

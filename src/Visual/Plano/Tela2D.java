@@ -4,6 +4,14 @@
  */
 package Visual.Plano;
 
+import Visual.Plano.Ambientes.AmbienteOutroJogagador;
+import Visual.Plano.Ambientes.AmbienteSala;
+import Visual.Plano.Ambientes.AmbienteVencedor;
+import Visual.Plano.Ambientes.AmbienteTime;
+import Visual.Plano.Ambientes.AmbienteJogo;
+import Visual.Plano.Ambientes.Ambiente;
+import Visual.Plano.Ambientes.AmbienteOpcao;
+import Visual.Plano.Utilidades.MapaImagens;
 import Controle.Controle;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -16,12 +24,17 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
+import sun.font.CharToGlyphMapper;
+import sun.font.FileFont;
+import sun.font.FontScaler;
 
 /**
  *
@@ -76,25 +89,46 @@ public class Tela2D extends JPanel implements MouseListener, MouseMotionListener
         if (a != null) {
             a.desenha(g2d);
         }
-        
+
         if (msg != null) {
-            try {
-                Font f = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/font/VeniceClassic.ttf"));
+            g2d.drawImage(MapaImagens.getBalao(), 0, 0, this);
+            /*try {
+                Font f = Font.createFont(Font.TRUETYPE_FONT, new FileFont(new File("font/VeniceClassic.ttf")) {
+                    @Override
+                    protected void close() {
+                        
+                    }
+
+                    @Override
+                    ByteBuffer readBlock(int i, int i1) {
+                        
+                    }
+
+                    @Override
+                    protected FontScaler getScaler() {
+                        
+                    }
+
+                    @Override
+                    CharToGlyphMapper getMapper() {
+                        
+                    }
+                });
                 f.deriveFont(Font.BOLD, 24f);
                 g2d.setFont(f);
                 //Até aqui tudo funciona perfeitamente
             } catch (FontFormatException ex) {
             } catch (IOException ex) {
-            }
-            g2d.drawString(msg, 30, 30);
+            }*/
+            g2d.drawString(msg, 50, 50);
         }
     }
 
     public static void aviso(String m) {
         msg = m;
     }
-    
-    public static void desligaAviso(){
+
+    public static void desligaAviso() {
         msg = null;
     }
 
@@ -162,5 +196,4 @@ public class Tela2D extends JPanel implements MouseListener, MouseMotionListener
     public void setOutroJogador() {
         ambientes.put((Integer) Controle.OUTRO_JOGANDO, new AmbienteOutroJogagador(this));
     }
-
 }

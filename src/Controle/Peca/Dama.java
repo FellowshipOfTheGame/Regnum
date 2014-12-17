@@ -7,7 +7,7 @@ package Controle.Peca;
 import Controle.Xadrez;
 import Modelo.Campo;
 import Modelo.Movimento;
-import Visual.Plano.MapaImagens;
+import Visual.Plano.Utilidades.MapaImagens;
 import java.util.ArrayList;
 
 /**

@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Visual.Plano;
+package Visual.Plano.Ambientes;
 
 import Controle.Controle;
 import Controle.Xadrez;
 import Modelo.Campo;
+import Visual.Plano.Tela2D;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -199,6 +200,7 @@ public class AmbienteJogo extends Ambiente {
             int j2 = (id % 1000) / 100;
 
             Image imageCoracao = this.mapaImagens.getCoracao();
+            Image imageCoracaoPreto = this.mapaImagens.getCoracao_preto();
 
             int size = (j2 != 0) ? 2 : 1;
             int h = (this.alturaAnterior - (40 + imageCoracao.getWidth(janela)) * (size + 1)) / size;
@@ -210,8 +212,12 @@ public class AmbienteJogo extends Ambiente {
                 g2d.drawImage(imageCoracao, larguraAnterior / 6 - h / 5, 40, h / 5, h / 5, janela);
                 g2d.drawImage(imageCoracao, larguraAnterior / 6 + imageCoracao.getWidth(janela), 40, h / 5, h / 5, janela);
             } else {
+                int maxVida = Xadrez.getTratadores()[p1-1].getVidaTotal();
+                for (int i = 0; i < maxVida; i++) {
+                    g2d.drawImage(imageCoracaoPreto, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, 40, h / 5, h / 5, janela);
+                }
                 for (int i = 0; i < v1; i++) {
-                    g2d.drawImage(imageCoracao, larguraAnterior / 6 + (2 * i - v1) * (h / 5) / 2, 40, h / 5, h / 5, janela);
+                    g2d.drawImage(imageCoracao, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, 40, h / 5, h / 5, janela);
                 }
             }
             if (size == 2) {
@@ -224,8 +230,13 @@ public class AmbienteJogo extends Ambiente {
                     g2d.drawImage(imageCoracao, larguraAnterior / 6 - h / 5, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
                     g2d.drawImage(imageCoracao, larguraAnterior / 6 + h / 5, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
                 } else {
+                    int maxVida = Xadrez.getTratadores()[p2-1].getVidaTotal();
+                    
+                    for (int i = 0; i < maxVida; i++) {
+                        g2d.drawImage(imageCoracaoPreto, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, 40, h / 5, h / 5, janela);
+                    }
                     for (int i = 0; i < v2; i++) {
-                        g2d.drawImage(imageCoracao, larguraAnterior / 6 + (2 * i - v2) * (h / 5) / 2, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
+                        g2d.drawImage(imageCoracao, larguraAnterior / 6 + (2 * i - maxVida) * (h / 5) / 2, h + 40 + (h / 5) + 32, h / 5, h / 5, janela);
                     }
                 }
             }
