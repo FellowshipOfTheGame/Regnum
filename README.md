@@ -1,0 +1,4 @@
+Descrição do jogo:
+Regnum (do Latim Reino), como dito antes, é um “jogo de estratégia, estilo tabuleiro e multi-palyer”. O objetivo do jogo é ser o ultimo reino com um Rei vivo, assim como no xaderz, porém o jogo possuí muitas adaptações que o torna mais divertido em complexo.
+-Tabuleiro: O tabuleiro é gerado por losangos que se encaixando formão um triangulo, esses triângulos encaixam-se e formão o tabuleiro o número de triângulos é duas vezes o número de jogadores.
+- Peças: O jogo possui 7 peças diferentes com habilidade, vidas e movimentação diferentes. sendo elas Rei, Dama, Príncipe, Bispo, Cavaleiro, Testudos e Soldado, para entender melhor como cada uma funciona consulte nosso manual (link: https://docs.google.com/document/d/1Az5BX_HwASsR5vTRCenbf3S7nZGXQfvsQ17U_w23jMU/edit?usp=sharing)
