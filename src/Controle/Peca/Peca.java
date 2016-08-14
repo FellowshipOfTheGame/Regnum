@@ -57,9 +57,7 @@ public abstract class Peca {
             int dano = Xadrez.getTratadores()[destino.peca2() - 1].fatorVida;
             dano = (destino.peca1() == Xadrez.CAVALEIRO && destino.vidaPeca1() > 1) ? dano * 2 : dano;//faz com que alguem montado no cavalo de dano em dobro
             if (destino.peca2() == Xadrez.TESTUDO) {
-                for (int i = 0; i < dano; i++) {
-                    Testudo.diminuirVida(destino);
-                }
+                Testudo.diminuirVida(destino, dano);
             } else if (destino.peca2() == Xadrez.CAVALEIRO && destino.vidaPeca2() > 1) {
                 int pecaMontadaNoCavalo = destino.getId() % 1000;
                 destino.matarPeca2();
@@ -70,8 +68,10 @@ public abstract class Peca {
             } else {
                 destino.peca2Vida(-1 * dano);
             }
-        } else if (destino.pecasAmigas() && destino.peca2() == Xadrez.BISPO && destino.vidaPeca1() < vidaTotal) {
+        } else if (destino.pecasAmigas() && destino.peca2() == Xadrez.BISPO && destino.vidaPeca1() < vidaTotal ) {
             destino.moverPecaFrente();
+            return false;
+        }else if (destino.pecasAmigas() && destino.peca1() == Xadrez.BISPO && destino.vidaPeca2() < Xadrez.getTratadores()[destino.peca2()-1].vidaTotal){
             return false;
         }
 
@@ -87,9 +87,7 @@ public abstract class Peca {
             int dano = Xadrez.getTratadores()[clicado.peca2() - 1].fatorVida;
             dano = (clicado.peca1() == Xadrez.CAVALEIRO && clicado.vidaPeca1() > 1) ? dano * 2 : dano;//faz com que alguem montado no cavalo de dano em dobro
             if (clicado.peca2() == Xadrez.TESTUDO) {
-                for (int i = 0; i < dano; i++) {
-                    Testudo.diminuirVida(clicado);
-                }
+                Testudo.diminuirVida(clicado, dano);
             } else if (clicado.peca2() == Xadrez.CAVALEIRO && clicado.vidaPeca2() > 1) {
                 int pecaMontadaNoCavalo = clicado.getId() % 1000;
                 clicado.matarPeca2();

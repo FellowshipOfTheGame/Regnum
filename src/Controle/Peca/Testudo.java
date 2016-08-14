@@ -171,170 +171,169 @@ public class Testudo extends Peca{
     }
     
     public static int apagarTestudos(Campo campoSelecionado) {
-        int movimento=4;
-        if(campoSelecionado.getFaceAbaixoDireita() != null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
-            movimento = 0;
-        }else if(campoSelecionado.getColuna()!=0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
-            movimento = 0;
-        }else{
-            if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO)){
-                movimento = 1;
-            }else if(campoSelecionado.getColuna()!=campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
-                movimento = 1;
-            }
+        int vida = (campoSelecionado.peca1() == Xadrez.TESTUDO)? campoSelecionado.vidaPeca1(): campoSelecionado.vidaPeca2();
+        int caminhou = 0;
+        
+        //Caminhando para o centro pela Direita
+        for(int i=0; i<vida && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO); i++){
+            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
+            // O caminho para baixo é para Esquerda
+            caminhou = 1;
         }
         
-        boolean stop=false;
-        do{
-            switch(movimento){
-                case 0: 
-                    try{ 
-                        if(campoSelecionado.getFaceAbaixoDireita()!=null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAbaixoDireita();
-                        } else if(campoSelecionado.getColuna()==campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO ||campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
-                        } else{
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-                case 1: 
-                    try{ 
-                        if(campoSelecionado.getFaceAbaixoEsquerda()!=null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAbaixoEsquerda();
-                        } else if(campoSelecionado.getColuna()==0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
-                        } else {
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
+        //Caminhando para o centro pela Esquerda
+        if(caminhou == 0){
+            for(int i=0; i<vida && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO); i++){
+                campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
+                // O caminho para baixo é para Direita
+                caminhou = 2;
             }
-        }while(!stop);
-        
-        int vida = 0;
-        stop = false;
-        do{
-            vida++;
+        }
+        if(caminhou == 0){// O campo selecionado é a peca mais procimo ao centro
+            if(campoSelecionado.getFaceAbaixoDireita() != null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Direita
+                caminhou = 2;
+            }else if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Esquerda
+                caminhou = 1;
+            // O caminho cruzou pelo lado esquerdo do triangulo
+            }else if(campoSelecionado.getColuna()== 0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Esquerda
+                caminhou = 1;
+            // O caminho cruzou pelo lado direito do triangulo    
+            }else if(campoSelecionado.getColuna() == campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Direita
+                caminhou = 2;
+            }
+        }
+        if(caminhou == 0){ // Só existe um Testudo
             if(campoSelecionado.peca1() == Xadrez.TESTUDO){
-                campoSelecionado.addJogador1(0);
-                campoSelecionado.addPeca1(0, 0);
+                campoSelecionado.matarPeca1();
             }else{
-                campoSelecionado.addJogador2(0);
-                campoSelecionado.addPeca2(0, 0);
+                campoSelecionado.matarPeca2();
             }
-            switch(movimento){
-                case 0: 
-                    try{ 
-                        if(campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO){
-                            campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
-                        } else{
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-                case 1: 
-                    try{ 
-                        if(campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO){
-                            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
-                        } else {
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
+        }else{
+            if(caminhou == 1){ // Indo para esquerda
+                for(int i=0; i<vida; i++){
+                    if(campoSelecionado.peca1() == Xadrez.TESTUDO){
+                        campoSelecionado.matarPeca1();
+                    }else{
+                        campoSelecionado.matarPeca2();
+                    }
+                    if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAbaixoEsquerda();
+                    }else if(campoSelecionado.getColuna()== 0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
+                    }
+                }
+            }else{
+                for(int i=0; i<vida; i++){
+                    if(campoSelecionado.peca1() == Xadrez.TESTUDO){
+                        campoSelecionado.matarPeca1();
+                    }else{
+                        campoSelecionado.matarPeca2();
+                    }
+                    if(campoSelecionado.getFaceAbaixoDireita()!= null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAbaixoDireita();
+                    }else if(campoSelecionado.getColuna() == campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAcimaDireita();
+                    }
+                }
             }
-        }while(!stop);
+        }
         
         return vida;
     }
     
-    static void diminuirVida(Campo campoSelecionado) {
-        int movimento=4;
-        if(campoSelecionado.getFaceAbaixoDireita() != null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
-            movimento = 0;
-        }else if(campoSelecionado.getColuna()!=0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
-            movimento = 0;
-        }else{
-            if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO)){
-                movimento = 1;
-            }else if(campoSelecionado.getColuna()!=campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
-                movimento = 1;
-            }
+    static void diminuirVida(Campo campoSelecionado, int dano) {
+        if(campoSelecionado.peca2() != Xadrez.TESTUDO){
+            System.err.println("Veio diminuir a vida de um testudo mas veio dar algo errado!!!");
+        }
+        int vida = campoSelecionado.vidaPeca2();
+        int caminhou = 0;
+        
+        //Caminhando para o centro pela Direita
+        for(int i=0; i<vida && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO); i++){
+            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
+            // O caminho para baixo é para Esquerda
+            caminhou = 1;
         }
         
-        boolean stop=false;
-        do{
-            switch(movimento){
-                case 0: 
-                    try{ 
-                        if(campoSelecionado.getFaceAbaixoDireita()!=null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAbaixoDireita();
-                        } else if(campoSelecionado.getColuna()==campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO ||campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
-                        } else{
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-                case 1: 
-                    try{ 
-                        if(campoSelecionado.getFaceAbaixoEsquerda()!=null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAbaixoEsquerda();
-                        } else if(campoSelecionado.getColuna()==0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
-                            campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
-                        } else {
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-            }
-        }while(!stop);
-        
-        stop = false;
-        do{
-            if(campoSelecionado.peca1() == Xadrez.TESTUDO){
-                campoSelecionado.peca1Vida(-1);
-            }else{
-                campoSelecionado.peca2Vida(-1);
-            }
-            switch(movimento){
-                case 0: 
-                    try{ 
-                        if(campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO){
-                            campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
-                        } else{
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-                case 1: 
-                    try{ 
-                        if(campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO){
-                            campoSelecionado = campoSelecionado.getFaceAcimaDireita();
-                        } else {
-                            stop=true;
-                        }
-                    }catch(Exception e){}
-                    break;
-            }
-        }while(!stop);
-        
-        stop=false;
-        do{
-            if(campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO){
+        //Caminhando para o centro pela Esquerda
+        if(caminhou == 0){
+            for(int i=0; i<vida && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO); i++){
                 campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
-            } else if(campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO){
-                campoSelecionado = campoSelecionado.getFaceAcimaDireita();
-            } else{
-                stop=true;
+                // O caminho para baixo é para Direita
+                caminhou = 2;
             }
-        }while(!stop);
-        if(campoSelecionado.peca1() == Xadrez.TESTUDO){
-            campoSelecionado.addJogador1(0);
-            campoSelecionado.addPeca1(0, 0);
+        }
+        if(caminhou == 0){// O campo selecionado é a peca mais procimo ao centro
+            if(campoSelecionado.getFaceAbaixoDireita() != null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Direita
+                caminhou = 2;
+            }else if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Esquerda
+                caminhou = 1;
+            // O caminho cruzou pelo lado esquerdo do triangulo
+            }else if(campoSelecionado.getColuna()== 0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Esquerda
+                caminhou = 1;
+            // O caminho cruzou pelo lado direito do triangulo    
+            }else if(campoSelecionado.getColuna() == campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
+                // O caminho para baixo é para Direita
+                caminhou = 2;
+            }
+        }
+        if(caminhou == 0){ // Só existe um Testudo
+            if(campoSelecionado.peca1() == Xadrez.TESTUDO){
+                campoSelecionado.matarPeca1();
+            }else{
+                campoSelecionado.matarPeca2();
+            }
         }else{
-            campoSelecionado.addJogador2(0);
-            campoSelecionado.addPeca2(0, 0);
+            if(caminhou == 1){ // Indo para esquerda
+                for(int i=0; i<vida; i++){
+                    if(campoSelecionado.peca1() == Xadrez.TESTUDO){
+                        if(dano > i){
+                            campoSelecionado.matarPeca1();
+                        }else{
+                            campoSelecionado.peca1Vida((-1)*dano);
+                        }
+                    }else{
+                        if(dano > i){
+                            campoSelecionado.matarPeca2();
+                        }else{
+                            campoSelecionado.peca2Vida((-1)*dano);
+                        }
+                    }
+                    if(campoSelecionado.getFaceAbaixoEsquerda() != null && (campoSelecionado.getFaceAbaixoEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoEsquerda().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAbaixoEsquerda();
+                    }else if(campoSelecionado.getColuna()== 0 && (campoSelecionado.getFaceAcimaEsquerda().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaEsquerda().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAcimaEsquerda();
+                    }
+                }
+            }else{
+                for(int i=0; i<vida; i++){
+                    if(campoSelecionado.peca1() == Xadrez.TESTUDO){
+                        if(dano > i){
+                            campoSelecionado.matarPeca1();
+                        }else{
+                            campoSelecionado.peca1Vida((-1)*dano);
+                        }
+                    }else{
+                        if(dano > i){
+                            campoSelecionado.matarPeca2();
+                        }else{
+                            campoSelecionado.peca2Vida((-1)*dano);
+                        }
+                    }
+                    if(campoSelecionado.getFaceAbaixoDireita()!= null && (campoSelecionado.getFaceAbaixoDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAbaixoDireita().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAbaixoDireita();
+                    }else if(campoSelecionado.getColuna() == campoSelecionado.getLinha() && (campoSelecionado.getFaceAcimaDireita().peca1() == Xadrez.TESTUDO || campoSelecionado.getFaceAcimaDireita().peca2() == Xadrez.TESTUDO)){
+                        campoSelecionado = campoSelecionado.getFaceAcimaDireita();
+                    }
+                }
+            }
         }
     }
 }

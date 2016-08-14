@@ -134,9 +134,7 @@ public class Bispo extends Peca{
             parametros[2] = campo.vidaPeca2();
             parametros[3] = campo.vidaPeca1();
         }else{
-            pecaTipo = campo.peca1();
-            parametros[2] = campo.vidaPeca1();
-            parametros[3] = campo.vidaPeca2();
+            return false;
         }
         parametros[0] = campo.getColuna();
         parametros[1] = campo.getLinha();
@@ -160,6 +158,11 @@ public class Bispo extends Peca{
         if(pecaPega == Movimento.INTERAGIR1 && clicado.vidaPeca2() < Xadrez.getTratadores()[clicado.peca2()-1].vidaTotal){
             int cura = (Xadrez.getTratadores()[clicado.peca2()-1].vidaTotal - clicado.vidaPeca2() < Xadrez.getTratadores()[clicado.peca2()-1].fatorVida)? Xadrez.getTratadores()[clicado.peca2()-1].vidaTotal - clicado.vidaPeca2(): Xadrez.getTratadores()[clicado.peca2()-1].fatorVida;
             clicado.peca2Vida(1*cura);
+            return (false);
+        }else if(pecaPega == Movimento.INTERAGIR1 && clicado.vidaPeca1() < Xadrez.getTratadores()[clicado.peca1()-1].vidaTotal){
+            int cura = (Xadrez.getTratadores()[clicado.peca1()-1].vidaTotal - clicado.vidaPeca1() < Xadrez.getTratadores()[clicado.peca1()-1].fatorVida)? Xadrez.getTratadores()[clicado.peca1()-1].vidaTotal - clicado.vidaPeca1(): Xadrez.getTratadores()[clicado.peca1()-1].fatorVida;
+            clicado.peca1Vida(1*cura);
+            clicado.moverPecaFrente();
             return (false);
         }
         

@@ -54,7 +54,7 @@ public class Cliente extends Thread{
             
             entrada = new ObjectInputStream(conexao.getInputStream());
             
-            System.out.println("conectando cliente");
+            //System.out.println("conectando cliente");
             while (true) {
                 try {               
                     mensagem = (Pacote) entrada.readObject();
@@ -80,7 +80,7 @@ public class Cliente extends Thread{
                             sala.iniciaPartida();
                             break;
                         }case Pacote.OUTRO_JOGADOR:{
-                            System.out.println("outro jogador");
+                            //System.out.println("outro jogador");
                             if(!sala.isServidor()){
                                 sala.timeExistente(mensagem);
                             }
@@ -97,7 +97,7 @@ public class Cliente extends Thread{
                         }  */     
                     }
                 } catch (ClassNotFoundException ex) {
-                    System.out.println("cliente erro 1");
+                    //System.out.println("cliente erro 1");
                     
                     //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                     
@@ -106,7 +106,7 @@ public class Cliente extends Thread{
             }
             
         } catch (UnknownHostException ex) {
-            System.out.println("cliente erro 2");
+            //System.out.println("cliente erro 2");
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Tela2D.aviso("Servidor Desconectado!");
