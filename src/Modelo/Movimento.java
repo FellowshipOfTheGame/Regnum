@@ -21,7 +21,7 @@ public final class Movimento implements Cloneable, Serializable{
     public static final int INTERAGIR2=3;
     public static final int ATACAR1=4;
     public static final int ATACAR2=5;
-    public static final int ASSOPRO=6;
+    public static final int ASSOPRO=20;
     
     public Movimento(Campo campoSelecionado, Campo campoDestino, int tipoMovimento) {
         

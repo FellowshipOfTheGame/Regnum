@@ -329,7 +329,6 @@ public class Xadrez {
 
                 }
                 if (p1 == BISPO) {//Promocao de SOLDADO
-                    System.out.println("t: "+movimentoRealizado.getTipoMovimento());
                     int peca = movimentoRealizado.getTipoMovimento();
                     cClicado.addPeca1(peca, tratadores[peca - 1].getVidaTotal());//Promovendo soldado
                 } else if (p1 == DAMA) {//Nascendo mais um SOLDADO

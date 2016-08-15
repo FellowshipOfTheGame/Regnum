@@ -96,18 +96,16 @@ public class Rei extends Peca{
         return (pecaTipo == Xadrez.CAVALEIRO && parametros[0]==Xadrez.getTratadores()[Xadrez.CAVALEIRO-1].vidaTotal) || pecaTipo == Xadrez.DAMA || pecaTipo == Xadrez.TESTUDO;
     }
 
-    @Override
     public boolean amigo(int pecaPega, Campo campo) {return false;}
-        /*
-        int pecaTipo = -1;
-        int[] parametros = null;
-        if(pecaPega == Movimento.PEGARP1){
-            pecaTipo = campo.peca1();
-        }else{
-            pecaTipo = campo.peca2();
-        }
-        return (amigo(pecaTipo, parametros));
-    }*/
+    
+    public static boolean amigo(Campo campo) {
+        int pecaTipo = campo.peca1();
+        int[] parametros = new int[1];
+        
+        parametros[0] = campo.vidaPeca1();
+        
+        return (pecaTipo == Xadrez.CAVALEIRO && parametros[0]==Xadrez.getTratadores()[Xadrez.CAVALEIRO-1].vidaTotal) || pecaTipo == Xadrez.DAMA;
+    }
 
     @Override
     public boolean realizaMovimento(int pecaPega, Campo clicado, Campo destino) {
