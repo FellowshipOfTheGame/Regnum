@@ -285,7 +285,7 @@ public class MapaImagens {
     }
 
     public Image getImageLider(int jogadorAtual, Tela2D janela) {
-        Image retorno = this.pecasHash.get("p" + Xadrez.REI + "" + 1 + ".png");
+        Image retorno = this.pecasHash.get("vencedor.png");
         retorno = trocador.imagemConverteCor(Color.blue, colorTimes.get(jogadorAtual), Color.PINK, retorno, janela);
         return retorno;
     }
