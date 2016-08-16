@@ -27,11 +27,12 @@ import Visual.Plano.Tela2D;
 public class Xadrez {
 
     private static Tabuleiro tabuleiro;
-    private static Campo[] campoSelecionado;
-    private static int[] pecaPega;
-    private static boolean[] temCampoSelecionado;
-    private static boolean[] movimentoObrigatorio;
-
+    private static Campo campoSelecionado;
+    private static int pecaPega;
+    private static boolean temCampoSelecionado;
+    private static int[] nMovimentosObrigatorios;
+    private static Campo[][] filaCamposObrigatorios;
+            
     /**
      * Tratadores das peças presente nos campos
      */
@@ -69,247 +70,256 @@ public class Xadrez {
 
         tabuleiro = new Tabuleiro(iJogadores);
         
-        campoSelecionado = new Campo[iJogadores];
-        pecaPega = new int[iJogadores];
-        temCampoSelecionado = new boolean[iJogadores];
-        movimentoObrigatorio = new boolean[iJogadores];
+        filaCamposObrigatorios = new Campo[iJogadores][5];
+        nMovimentosObrigatorios = new int[iJogadores];
     }
 
     public boolean selecionarCampo(int face, int linha, int coluna, int usuario) {
-        if (!movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()]) {
-            campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = null;
-            pecaPega[Controle.instanciaControle().getJogadorAtual()] = -1;
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
+        if (k==0) {
+            campoSelecionado = null;
+            pecaPega = -1;
 
-            campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tabuleiro.campoSelecionado(face, linha, coluna);
-            if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].existeJogador(usuario) != 0) {
-                if (!campoSelecionado[Controle.instanciaControle().getJogadorAtual()].campoCheio()) {
-                    if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == TESTUDOS) {
+            campoSelecionado = tabuleiro.campoSelecionado(face, linha, coluna);
+            if (campoSelecionado.existeJogador(usuario) != 0) {
+                if (!campoSelecionado.campoCheio()) {
+                    if (campoSelecionado.peca1() == TESTUDOS) {
                         Controle.instanciaControle().setEstado(Controle.OPCAO_CAMPO);
                         AmbienteOpcao.setReset(false);
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                    } else if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == TESTUDO) {
+                        temCampoSelecionado = true;
+                        pecaPega = Movimento.PEGARP1;
+                    } else if (campoSelecionado.peca1() == TESTUDO) {
                         Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                        pecaPega = Movimento.PEGARP1;
+                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                         return true;
-                    } else if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == CAVALEIRO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].vidaPeca1() > tratadores[CAVALEIRO - 1].getVidaTotal()) {
+                    } else if (campoSelecionado.peca1() == CAVALEIRO && campoSelecionado.vidaPeca1() > tratadores[CAVALEIRO - 1].getVidaTotal()) {
                         Controle.instanciaControle().setEstado(Controle.OPCAO_CAMPO);
                         AmbienteOpcao.setReset(false);
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
+                        temCampoSelecionado = true;
+                        pecaPega = Movimento.PEGARP1;
                     } else {
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(pecaPega[Controle.instanciaControle().getJogadorAtual()], campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
+                        pecaPega = Movimento.PEGARP1;
+                        temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(pecaPega, campoSelecionado, true);
                     }
                 } else {
                     Controle.instanciaControle().setEstado(Controle.OPCAO_CAMPO);
                     AmbienteOpcao.setReset(false);
-                    if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].pecasInimigas()) {
-                        if (usuario == campoSelecionado[Controle.instanciaControle().getJogadorAtual()].jogador1()) {
-                            pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.ATACAR1;
-                            temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                            campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundoVermelho();
-                        } else if (usuario == campoSelecionado[Controle.instanciaControle().getJogadorAtual()].jogador2()) {
-                            if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == TESTUDO) {
+                    if (campoSelecionado.pecasInimigas()) {
+                        if (usuario == campoSelecionado.jogador1()) {
+                            pecaPega = Movimento.ATACAR1;
+                            temCampoSelecionado = true;
+                            campoSelecionado.setFundoVermelho();
+                        } else if (usuario == campoSelecionado.jogador2()) {
+                            if (campoSelecionado.peca2() == TESTUDO) {
                                 Controle.instanciaControle().setEstado(Controle.JOGANDO);
                                 Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;
-                                Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                                pecaPega = Movimento.PEGARP2;
+                                Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                                 return true;
                             } else {
-                                campoSelecionado[Controle.instanciaControle().getJogadorAtual()].moverPecaFrente();
-                                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.ATACAR2;
-                                temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                                campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundoVermelho();
+                                campoSelecionado.moverPecaFrente();
+                                pecaPega = Movimento.ATACAR2;
+                                temCampoSelecionado = true;
+                                campoSelecionado.setFundoVermelho();
                             }
                         }
                     } else {
-                        /*if (campoSelecionado.peca1() == CAVALEIRO && campoSelecionado.vidaPeca1() == tratadores[CAVALEIRO - 1].getVidaTotal()) {
-                         temCampoSelecionado = true;
-                         pecaPega = Movimento.PEGARP1;
-                         } else {*/
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR1;
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundoAzul();
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                        //}
+                        pecaPega = Movimento.INTERAGIR1;
+                        campoSelecionado.setFundoAzul();
+                        temCampoSelecionado = true;
                     }
                 }
             }
         } else {
+            campoSelecionado = filaCamposObrigatorios[j][k-1];
+            temCampoSelecionado = false;
+            
             Tela2D.aviso("Movimento Obrigatorio!");
-            if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == TESTUDO) { //Movimento do Rei passando pela formacao do TESTUDO
-                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;
-                temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(pecaPega[Controle.instanciaControle().getJogadorAtual()], campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
-                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-            } else if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == DAMA && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO) {
-                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(pecaPega[Controle.instanciaControle().getJogadorAtual()], campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
+            if (campoSelecionado.peca2() == TESTUDO) { //Movimento do Rei passando pela formacao do TESTUDO
+                pecaPega = Movimento.PEGARP2;
+                temCampoSelecionado = tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, true);
+                pecaPega = Movimento.PEGARP1;
+            } else if (campoSelecionado.peca1() == DAMA && campoSelecionado.peca2() == SOLDADO) {
+                pecaPega = Movimento.PEGARP1;
+                temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(pecaPega, campoSelecionado, true);
             } else {
                 Controle.instanciaControle().setEstado(Controle.OPCAO_CAMPO);
                 AmbienteOpcao.setReset(false);
-                if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].pecasAmigas()) {
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = true;
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR1;
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundoAzul();
+                if (campoSelecionado.pecasAmigas()) {
+                    temCampoSelecionado = true;
+                    pecaPega = Movimento.INTERAGIR1;
+                    campoSelecionado.setFundoAzul();
                 }
 
             }
         }
 
-        return temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()];
+        return temCampoSelecionado;
     }
 
     public void soltarBotao() {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         Tela2D.desligaAviso();
 
-        int corFundo = tabuleiro.campoSelecionado(campoSelecionado[Controle.instanciaControle().getJogadorAtual()].getFace(), campoSelecionado[Controle.instanciaControle().getJogadorAtual()].getLinha(), campoSelecionado[Controle.instanciaControle().getJogadorAtual()].getColuna()).getCorFundo();
+        int corFundo = tabuleiro.campoSelecionado(campoSelecionado.getFace(), campoSelecionado.getLinha(), campoSelecionado.getColuna()).getCorFundo();
         if (corFundo != MapaImagens.PRETO && corFundo != MapaImagens.BRANCO) {
-            if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == TESTUDO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == REI) { //Rei saindo da torre
-                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;//isso nao esta sendo usado
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(pecaPega[Controle.instanciaControle().getJogadorAtual()], campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-                pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-            } else if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == BISPO) {//Tratatando poromocao do soldado
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-            } else if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == SOLDADO) {//Tratatando soldado nascido
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-            } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1 && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == TESTUDOS) {
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false, campoSelecionado[Controle.instanciaControle().getJogadorAtual()].vidaPeca1());
-            } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] % 2 == 0) {
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-            } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] % 2 == 1) {
-                tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
+            if (k>0 && campoSelecionado.peca2() == TESTUDO && campoSelecionado.peca1() == REI) { //Rei saindo da torre
+                pecaPega = Movimento.PEGARP2;//isso nao esta sendo usado
+                tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, false);
+                pecaPega = Movimento.PEGARP1;
+            } else if (k>0 && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (k>0 && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == SOLDADO) {//Tratatando soldado nascido
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (pecaPega == Movimento.INTERAGIR1 && campoSelecionado.peca1() == TESTUDOS) {
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false, campoSelecionado.vidaPeca1());
+            } else if (pecaPega % 2 == 0) {
+                tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+            } else if (pecaPega % 2 == 1) {
+                tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, false);
             }
         }
-        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
+        temCampoSelecionado = false;
         Controle.instanciaControle().setEstado(Controle.JOGANDO);
     }
 
     public void realizarBotao(int botaoClicado) {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         Tela2D.desligaAviso();
-        if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == BISPO) {//Tratatando poromocao do soldado
-            int peca = (!existePeca(campoSelecionado[Controle.instanciaControle().getJogadorAtual()].jogador1(), DAMA)) ? DAMA : BISPO;
-            pecaPega[Controle.instanciaControle().getJogadorAtual()] = botaoClicado + peca;//Transforma o soldado para a peca que foi escolhida para promocao
-            temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
+        if (k>0 && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
+            int peca = (!existePeca(campoSelecionado.jogador1(), DAMA)) ? DAMA : BISPO;
+            pecaPega = botaoClicado + peca;//Transforma o soldado para a peca que foi escolhida para promocao
+            temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true);
         } else {
             if (botaoClicado == 0) {
-                if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1) {
-                    if (temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true)) {
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
+                if (pecaPega == Movimento.INTERAGIR1) {
+                    if (temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true)) {
+                        pecaPega = Movimento.PEGARP1;
                     } else {
-                        //Um problema quando pintaCampo retorna false, ou seja,
-                        //no caso de dois SOLDADOS no mesmo campo, entao esta setado 
-                        //movimentoObrigatorio=true, e ai nao eh possivel realizar o
-                        //movimento. Como tratar isso?
-                        //como o movimento não foi possivel a peca eh perdida
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.ASSOPRO;
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
-                        movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = false;
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundo();
+                        /*  Um problema quando pintaCampo retorna false, ou seja,
+                            no caso de dois SOLDADOS no mesmo campo, entao esta setado 
+                            movimentoObrigatorio=true, e ai nao eh possivel realizar o
+                            movimento. Como tratar isso?
+                            como o movimento não foi possivel a peca eh perdida
+                        */
+                        pecaPega = Movimento.ASSOPRO;
+                        temCampoSelecionado = false;
+                        if(k>0){
+                            nMovimentosObrigatorios[j]--;
+                        }
+                        campoSelecionado.setFundo();
                         Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                     }
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.ATACAR1) {
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.ATACAR2) {
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()].moverPecaFrente();
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.PEGARP1) {
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
+                } else if (pecaPega == Movimento.ATACAR1) {
+                    temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true);
+                    pecaPega = Movimento.PEGARP1;
+                } else if (pecaPega == Movimento.ATACAR2) {
+                    campoSelecionado.moverPecaFrente();
+                    temCampoSelecionado = tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, true);
+                    pecaPega = Movimento.PEGARP2;
+                } else if (pecaPega == Movimento.PEGARP1) {
+                    temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true);
+                    pecaPega = Movimento.PEGARP1;
                 }
             } else if (botaoClicado == 1) {
-                if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1) {
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true);
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.PEGARP1) {
-                    if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == TESTUDOS) { //Abrindo formacao TESTUDO
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR1;
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], true, campoSelecionado[Controle.instanciaControle().getJogadorAtual()].vidaPeca1());
-                    } else if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == CAVALEIRO) { //Montando ou desmontando do Cavaleiro
-                        temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
-                        movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = false;
+                if (pecaPega == Movimento.INTERAGIR1) {
+                    temCampoSelecionado = tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, true);
+                    pecaPega = Movimento.PEGARP2;
+                } else if (pecaPega == Movimento.PEGARP1) {
+                    if (campoSelecionado.peca1() == TESTUDOS) { //Abrindo formacao TESTUDO
+                        pecaPega = Movimento.INTERAGIR1;
+                        temCampoSelecionado = tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, true, campoSelecionado.vidaPeca1());
+                    } else if (campoSelecionado.peca1() == CAVALEIRO) { //Montando ou desmontando do Cavaleiro
+                        temCampoSelecionado = false;
+                        if(k>0){
+                            nMovimentosObrigatorios[j]--;
+                        }
                         Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                        pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR1;
-                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                        pecaPega = Movimento.INTERAGIR1;
+                        Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                     }
                 } else {//Atacando uma peca que esta no mesmo campo
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundo();
+                    campoSelecionado.setFundo();
                     /**
                      * Caso sua peca seja a segunda do campo, ela teve de ser
                      * movida para frente para na opcao aparcer o ataque dela
                      * agora deve trazer para traz novamente
                      */
-                    if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.ATACAR2) {
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()].moverPecaFrente();
+                    if (pecaPega == Movimento.ATACAR2) {
+                        campoSelecionado.moverPecaFrente();
                     }
                     Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
+                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
+                    temCampoSelecionado = false;
                 }
             } else if (botaoClicado == 2) {
-                //if (tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].amigo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()])) {
-                if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1) {
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundo();
-                    temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
-                    movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = false;
+                if (pecaPega == Movimento.INTERAGIR1) {
+                    campoSelecionado.setFundo();
+                    temCampoSelecionado = false;
+                    if(k>0){
+                        nMovimentosObrigatorios[j]--;
+                    }
                     Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                 }
-                /*} else if (tratadores[campoSelecionado.peca2() - 1].amigo(Movimento.PEGARP2, campoSelecionado)) {
-                 if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1) {
-                 pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR2;
-                 Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                 Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
-                 }
-                 }*/
-
             } else if (botaoClicado == 3) {
-                //if (tratadores[campoSelecionado.peca2() - 1].amigo(Movimento.PEGARP2, campoSelecionado)) {
-                if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1) {
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.INTERAGIR2;
+                if (pecaPega == Movimento.INTERAGIR1) {
+                    pecaPega = Movimento.INTERAGIR2;
                     Campo origem = (Campo) Xadrez.getCampoSelecianado().clone();
-                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega[Controle.instanciaControle().getJogadorAtual()]);
+                    Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
                 }
-                //}
-                campoSelecionado[Controle.instanciaControle().getJogadorAtual()].setFundo();
-                temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
+                campoSelecionado.setFundo();
+                temCampoSelecionado = false;
             }
         }
     }
 
     public boolean validaCampo(int face, int linha, int coluna) {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         Tela2D.desligaAviso();
-        if (campoSelecionado[Controle.instanciaControle().getJogadorAtual()] != tabuleiro.campoSelecionado(face, linha, coluna)) {
+        if (campoSelecionado != tabuleiro.campoSelecionado(face, linha, coluna)) {
             int corFundo = tabuleiro.campoSelecionado(face, linha, coluna).getCorFundo();
             if (corFundo != MapaImagens.PRETO && corFundo != MapaImagens.BRANCO) {
-                if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == TESTUDO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == REI) { //Rei saindo da torre
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP2;//isso nao esta sendo usado
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(pecaPega[Controle.instanciaControle().getJogadorAtual()], campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-                    pecaPega[Controle.instanciaControle().getJogadorAtual()] = Movimento.PEGARP1;
-                } else if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == BISPO) {//Tratatando poromocao do soldado
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-                } else if (movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() == SOLDADO && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == SOLDADO) {//Tratatando soldado nascido
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] == Movimento.INTERAGIR1 && campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() == TESTUDOS) {
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false, campoSelecionado[Controle.instanciaControle().getJogadorAtual()].vidaPeca1());
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] % 2 == 0) {
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
-                } else if (pecaPega[Controle.instanciaControle().getJogadorAtual()] % 2 == 1) {
-                    tratadores[campoSelecionado[Controle.instanciaControle().getJogadorAtual()].peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado[Controle.instanciaControle().getJogadorAtual()], false);
+                if (k>0 && campoSelecionado.peca2() == TESTUDO && campoSelecionado.peca1() == REI) { //Rei saindo da torre
+                    pecaPega = Movimento.PEGARP2;//isso nao esta sendo usado
+                    tratadores[campoSelecionado.peca2() - 1].pintaCampo(pecaPega, campoSelecionado, false);
+                    pecaPega = Movimento.PEGARP1;
+                } else if (k>0 && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == BISPO) {//Tratatando poromocao do soldado
+                    tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+                } else if (k>0 && campoSelecionado.peca2() == SOLDADO && campoSelecionado.peca1() == SOLDADO) {//Tratatando soldado nascido
+                    tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+                } else if (pecaPega == Movimento.INTERAGIR1 && campoSelecionado.peca1() == TESTUDOS) {
+                    tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false, campoSelecionado.vidaPeca1());
+                } else if (pecaPega % 2 == 0) {
+                    tratadores[campoSelecionado.peca1() - 1].pintaCampo(Movimento.PEGARP1, campoSelecionado, false);
+                } else if (pecaPega % 2 == 1) {
+                    tratadores[campoSelecionado.peca2() - 1].pintaCampo(Movimento.PEGARP2, campoSelecionado, false);
                 }
 
-                temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()] = false;
-                movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = false;
+                temCampoSelecionado = false;
+                if(k>0){
+                    nMovimentosObrigatorios[j]--;
+                }
             }
         }
 
-        return !temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()];
+        return !temCampoSelecionado;
     }
 
     public boolean tratarExecaoMovimento(int ordem, Movimento movimentoRealizado) {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         int[] iClicado = movimentoRealizado.getCampoSelecionado();
         Campo cClicado = tabuleiro.campoSelecionado(iClicado[0], iClicado[1], iClicado[2]);
 
@@ -321,29 +331,22 @@ public class Xadrez {
 
                 if (!tratadores[p1 - 1].realizaMovimento(Movimento.PEGARP1, cClicado, cDestino)) {
                     if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cDestino;
-                        movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
-                    } /*else {
-                     movimentoObrigatorio = false;
-                     }*/
+                        filaCamposObrigatorios[j][k] = cDestino;
+                        nMovimentosObrigatorios[j]++;
+                        k++;
+                    }
 
                 }
                 if (p1 == BISPO) {//Promocao de SOLDADO
                     int peca = movimentoRealizado.getTipoMovimento();
                     cClicado.addPeca1(peca, tratadores[peca - 1].getVidaTotal());//Promovendo soldado
                 } else if (p1 == DAMA) {//Nascendo mais um SOLDADO
-//                        if (movimentoObrigatorio) {
-//                            pecaPega = Movimento.ASSOPRO;
-//                            Campo origem = (Campo) cClicado.clone();
-//                            Controle.instanciaControle().enviaMovimento(origem, null, pecaPega);
-////                        } else {
                     if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cClicado;
-                        movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
+                        filaCamposObrigatorios[j][k] = cClicado;
+                        nMovimentosObrigatorios[j]++;
                     }
-                    cClicado.addJogador2(ordem + 1);
                     cClicado.addPeca2(SOLDADO, tratadores[SOLDADO - 1].getVidaTotal());
-//                        }
+                    cClicado.addJogador2(ordem + 1);
                 }
                 return true;
             } else if (cClicado.peca1() == REI && cClicado.peca2() == DAMA) {
@@ -354,18 +357,16 @@ public class Xadrez {
 
                 if (!tratadores[p1 - 1].realizaMovimento(movimentoRealizado.getTipoMovimento(), cClicado, cDestino)) {
                     if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                        campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cDestino;
-                        movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
-                    }/* else {
-                     movimentoObrigatorio = false;
-                     }*/
-
+                        filaCamposObrigatorios[j][k] = cDestino;
+                        nMovimentosObrigatorios[j]++;
+                        k++;
+                    }
                 }
-                cClicado.addJogador2(ordem + 1);
                 cClicado.addPeca2(PRINCIPE, tratadores[PRINCIPE - 1].getVidaTotal());
+                cClicado.addJogador2(ordem + 1);
                 if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cClicado;
-                    movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
+                    filaCamposObrigatorios[j][k] = cClicado;
+                    nMovimentosObrigatorios[j]++;
                 }
                 return true;
             }
@@ -374,11 +375,6 @@ public class Xadrez {
             Campo cDestino = tabuleiro.campoSelecionado(iDestino[0], iDestino[1], iDestino[2]);
 
             Testudo.abrirTestudos(cClicado, cDestino);
-//            cClicado.addJogador1(ordem + 1);
-//            cClicado.addPeca1(Xadrez.TESTUDO, tratadores[TESTUDO-1].getVidaTotal());
-//            cDestino.addJogador1(ordem + 1);
-//            cDestino.addPeca1(Xadrez.TESTUDO, tratadores[TESTUDO-1].getVidaTotal());
-//            
             return true;
         } else if (cClicado.peca1() == TESTUDO || cClicado.peca2() == TESTUDO) {//Fecha Testudo
             int vida = Testudo.apagarTestudos(cClicado);
@@ -398,6 +394,9 @@ public class Xadrez {
     }
 
     public void realizarMovimento(int ordem, int[] iClicado, int[] iDestino, int pecaClicada) {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         Campo cClicado = tabuleiro.campoSelecionado(iClicado[0], iClicado[1], iClicado[2]);
         Campo cDestino = tabuleiro.campoSelecionado(iDestino[0], iDestino[1], iDestino[2]);
         boolean obrigatorio = false;
@@ -408,15 +407,20 @@ public class Xadrez {
         }
         if (obrigatorio) {
             if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cDestino;
-                movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
+                filaCamposObrigatorios[j][k] = cDestino;
+                nMovimentosObrigatorios[j]++;
             } else {
-                movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = false;
+                if(k>0){
+                    nMovimentosObrigatorios[j]--;
+                }
             }
         }
     }
 
     public void realizarAcao(int ordem, int[] iClicado, int pecaClicada) {
+        int j = Controle.instanciaControle().getJogadorAtual();
+        int k = nMovimentosObrigatorios[j];
+        
         Campo cClicado = tabuleiro.campoSelecionado(iClicado[0], iClicado[1], iClicado[2]);
 
         boolean obrigatorio = false;
@@ -437,19 +441,15 @@ public class Xadrez {
             }
             if (obrigatorio) {
                 if (Controle.instanciaControle().getUsuario().getOrdem() == ordem) {
-                    campoSelecionado[Controle.instanciaControle().getJogadorAtual()] = cClicado;
-                    movimentoObrigatorio[Controle.instanciaControle().getJogadorAtual()] = true;
-                }/* else {
-                 movimentoObrigatorio = false;
-                 }*/
-
+                    filaCamposObrigatorios[j][k] = cClicado;
+                    nMovimentosObrigatorios[j]++;
+                }
             }
         }
-
     }
 
     public boolean temCampoSelecionado() {
-        return temCampoSelecionado[Controle.instanciaControle().getJogadorAtual()];
+        return temCampoSelecionado;
     }
 
     public Campo[] getCampos() {
@@ -457,7 +457,7 @@ public class Xadrez {
     }
 
     public static Campo getCampoSelecianado() {
-        return campoSelecionado[Controle.instanciaControle().getJogadorAtual()];
+        return campoSelecionado;
     }
 
     public static Tabuleiro getTabuleiro() {
@@ -465,7 +465,7 @@ public class Xadrez {
     }
 
     public static int getPecaPega() {
-        return pecaPega[Controle.instanciaControle().getJogadorAtual()];
+        return pecaPega;
     }
 
     public static Peca[] getTratadores() {

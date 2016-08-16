@@ -77,7 +77,7 @@ public class Bispo extends Peca{
                         contaPasso++;
                     }   
                 }
-            }while(continua && contaPasso < 9);
+            }while(continua && contaPasso < 10);
         }
         if(movimento){
             if(selecionarCampo){

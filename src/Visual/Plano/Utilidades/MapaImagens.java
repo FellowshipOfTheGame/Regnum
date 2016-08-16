@@ -116,9 +116,8 @@ public class MapaImagens {
         }
     }
 
-    //[IFJPVJPV]
+    //[FJPVJPV]
     public Image getImagePeca(int id, Component comp) {
-        //int i = (id % 100000000) / 10000000;
         int j1 = (id % 1000000) / 100000;
         int p1 = (id % 100000) / 10000;
         int v1 = (id % 10000) / 1000;
@@ -135,17 +134,29 @@ public class MapaImagens {
         } else if (j1 != 0 && j1 == j2) {
             retorno = this.iteracoesHash.get("i" + p1 + "" + v1 + "" + p2 + "" + v2 + ".png");
             if (retorno == null) {
-                retorno = this.iteracoesHash.get("i" + p2 + "" + v2 + "" + p1 + "" + v2 + ".png");
+                retorno = this.iteracoesHash.get("i" + p2 + "" + v2 + "" + p1 + "" + v1 + ".png");
+            }
+            if (retorno == null) {
+                System.err.println("iterecao: p1: "+p1+" v1: "+v1+" p2: "+p2+" v2: "+v2);
             }
             retorno = trocador.imagemConverteCor(Color.blue, colorTimes.get(j1 - 1), Color.PINK, retorno, comp);
         } else if (j1 != 0 && j2 != 0 && j1 != j2) {
             Image atacante = this.atacanteHash.get("a" + p1 + "" + v1 + ".png");
+            if (atacante == null) {
+                System.err.println("atacente: a: "+p1+" v: "+v1);
+            }
             atacante = trocador.imagemConverteCor(Color.blue, colorTimes.get(j1 - 1), Color.PINK, atacante, comp);
             Image defensor = this.defensorHash.get("d" + p2 + "" + v2 + ".png");
+            if (defensor == null) {
+                System.err.println("defensor: d: "+p2+" v: "+v2);
+            }
             defensor = trocador.imagemConverteCor(Color.blue, colorTimes.get(j2 - 1), Color.PINK, defensor, comp);
             retorno = trocador.somaImagens(atacante, defensor, comp);
         } else if (j1 != 0) {
             retorno = this.pecasHash.get("p" + p1 + "" + v1 + ".png");
+            if (retorno == null) {
+                System.err.println("peca: p: "+p1+" v: "+v1);
+            }
             retorno = trocador.imagemConverteCor(Color.blue, colorTimes.get(j1 - 1), Color.PINK, retorno, comp);
         }
 

@@ -92,7 +92,7 @@ public class Dama extends Peca{
                         contaPasso++;
                     }   
                 }
-            }while(continua && contaPasso < 9);
+            }while(continua && contaPasso < 8);
         }
         if(movimento){
             if(selecionarCampo){

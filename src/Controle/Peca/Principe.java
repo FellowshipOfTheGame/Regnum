@@ -5,6 +5,7 @@
 package Controle.Peca;
 
 import Controle.Xadrez;
+import static Controle.Xadrez.SOLDADO;
 import Modelo.Campo;
 import Modelo.Movimento;
 
@@ -146,11 +147,13 @@ public class Principe extends Peca {
         if (destino.pecasAmigas()) {
             if (destino.peca2() == Xadrez.CAVALEIRO) {
                 destino.moverPecaFrente();
+                destino.peca1Vida(destino.peca2()); //isso eh um pog para colocar a peca junto com o cavalo
+                destino.matarPeca2();
                 return true;
             } else if (destino.peca2() == Xadrez.BISPO && !Xadrez.existePeca(destino.jogador1(), Xadrez.REI)) {
                 destino.moverPecaFrente();
-                destino.peca1Vida(destino.peca2()); //isso eh um pog para colocar a peca junto com o cavalo
-                destino.matarPeca2();
+                destino.addPeca2(Xadrez.REI, Xadrez.getTratadores()[Xadrez.REI - 1].getVidaTotal());
+                destino.addJogador2(destino.jogador1());
                 return false;
             }
         }

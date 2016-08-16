@@ -180,6 +180,7 @@ public class Imagem {
         } catch (InterruptedException e) {
         } // Esperando imagem carregar
         if (img == null) {
+            System.err.println("Nao foi possivel carregar imagem!!!");
             System.exit(0);
         }
 
