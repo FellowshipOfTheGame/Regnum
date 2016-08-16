@@ -161,17 +161,9 @@ public class Sala {
     public void jogadorPerdeu(int jogadorAtual) {
         this.cliente.notificaJogadorDerrotado(jogadorAtual);
     }
-    
-    /*public void jogadorVenceu(int jogadorAtual) {
-        this.cliente.notificaJogadorVencedor(jogadorAtual);
-    }*/
 
     public void jogadorDerrotado(int ordem) {
         this.jogadoresVivos.remove(ordem);
         this.jogadoresVivos.add(ordem, false);
     }
-
-    /*public void jogadorVencedor(int ordem) {
-        this.controle.jogadorVencedor(ordem);
-    }*/
 }

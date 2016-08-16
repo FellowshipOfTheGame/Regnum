@@ -47,7 +47,6 @@ public class Escutador extends Thread {
             
             entrada = new ObjectInputStream(conexao.getInputStream());
             
-            //System.out.println("provendo");
             while (true) {
                 saida.writeObject(new Pacote());
                 saida.flush();
@@ -100,8 +99,7 @@ public class Escutador extends Thread {
                     }
                 } catch (IOException ex) {
                     Controle c = Controle.instanciaControle();
-                    Tela2D.aviso("Jogador Desconectado! "+c.getUsuario().getOrdem());
-                    //this.sala.jogadorPerdeu(i);
+                    Tela2D.aviso("Jogador "+c.getUsuario().getTime()+" desconectou!");
                     //TODO fazer tratamento de saida de jogador
                     return;
                 } catch (ClassNotFoundException ex) {

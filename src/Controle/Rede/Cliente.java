@@ -54,7 +54,6 @@ public class Cliente extends Thread{
             
             entrada = new ObjectInputStream(conexao.getInputStream());
             
-            //System.out.println("conectando cliente");
             while (true) {
                 try {               
                     mensagem = (Pacote) entrada.readObject();
@@ -67,7 +66,7 @@ public class Cliente extends Thread{
                             Tela2D.aviso("Cor invalida!");
                             break;
                         }case Pacote.CLIENTE_FALHOU_NOME:{
-                            Tela2D.aviso("Nome invalida!");
+                            Tela2D.aviso("Nome invalido!");
                             break;
                         }case Pacote.CLIENTE:{
                             Tela2D.desligaAviso();
@@ -80,7 +79,6 @@ public class Cliente extends Thread{
                             sala.iniciaPartida();
                             break;
                         }case Pacote.OUTRO_JOGADOR:{
-                            //System.out.println("outro jogador");
                             if(!sala.isServidor()){
                                 sala.timeExistente(mensagem);
                             }
@@ -91,26 +89,16 @@ public class Cliente extends Thread{
                         }case Pacote.DERROTADO:{
                             this.sala.jogadorDerrotado(mensagem.getOrdem());
                             break;
-                        }/*case Pacote.FINAL:{
-                            this.sala.jogadorVencedor(mensagem.getOrdem());
-                            break;
-                        }  */     
+                        }
                     }
                 } catch (ClassNotFoundException ex) {
-                    //System.out.println("cliente erro 1");
-                    
-                    //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-                    
                     return;
                 }
             }
             
         } catch (UnknownHostException ex) {
-            //System.out.println("cliente erro 2");
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Tela2D.aviso("Servidor Desconectado!");
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -168,16 +156,6 @@ public class Cliente extends Thread{
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /*void notificaJogadorVencedor(int jogadorVencedor) {
-        try {
-            mensagem.setOrdem(jogadorVencedor);
-            mensagem.setProtocolo(Pacote.FINAL);
-            saida.writeObject(mensagem);
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
 
     public void conectar() {
         mensagem.setProtocolo(Pacote.PROCURANDO);
