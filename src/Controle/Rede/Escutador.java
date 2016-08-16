@@ -20,13 +20,15 @@ import java.util.logging.Logger;
  */
 public class Escutador extends Thread {
     private Pacote mensagem;
-    private Socket conexao;
+    private final Socket conexao;
     private ObjectInputStream entrada;
     private ObjectOutputStream saida;
-    private Servidor servidor;
+    private final Servidor servidor;
 
     /**
      * Todos os Escutador utilizao da mesma conexao: @param sConexao
+     * @param sConexao
+     * @param servidor
      */
     public Escutador(Socket sConexao, Servidor servidor) {
         this.conexao = sConexao;
@@ -93,14 +95,13 @@ public class Escutador extends Thread {
                     if (movimento == null) {
                         return;
                     }
+                    
                     for (ObjectOutputStream outro : servidor.saidas) {
                         outro.writeObject(movimento);
                         outro.flush();
                     }
                 } catch (IOException ex) {
-                    Controle c = Controle.instanciaControle();
-                    Tela2D.aviso("Jogador "+c.getUsuario().getTime()+" desconectou!");
-                    //TODO fazer tratamento de saida de jogador
+                    sala.clienteDesconectou(mensagem.ordem);
                     return;
                 } catch (ClassNotFoundException ex) {
                     System.out.println("o que aconteceu?");

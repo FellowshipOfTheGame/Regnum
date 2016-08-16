@@ -195,7 +195,6 @@ public class Controle {
                 }
             } else {
                 this.estado = VENCEDOR;
-                //this.sala.jogadorVenceu(jogadorAtual);
             }
         }
     }

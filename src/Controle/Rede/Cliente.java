@@ -147,9 +147,9 @@ public class Cliente extends Thread{
         }
     }
 
-    void notificaJogadorDerrotado(int jogadorAtual) {
+    void notificaJogadorDerrotado(int jogador) {
         try {
-            mensagem.setOrdem(jogadorAtual);
+            mensagem.setOrdem(jogador);
             mensagem.setProtocolo(Pacote.DERROTADO);
             saida.writeObject(mensagem);
         } catch (IOException ex) {

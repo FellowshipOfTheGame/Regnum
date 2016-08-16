@@ -6,6 +6,7 @@ package Controle.Rede;
 
 import Controle.Controle;
 import Modelo.Movimento;
+import Visual.Plano.Tela2D;
 import Visual.Plano.Utilidades.MapaImagens;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -98,6 +99,10 @@ public class Sala {
         return false;
     }
     
+    public void clienteDesconectou(int i) {
+        this.jogadorPerdeu(i);
+    }
+    
     public void mensagemChat(String text) {
         this.cliente.mensagemChat(text);
     }
@@ -158,12 +163,24 @@ public class Sala {
         this.controle.realizarmovimento(ordem, movimento);
     }
 
-    public void jogadorPerdeu(int jogadorAtual) {
-        this.cliente.notificaJogadorDerrotado(jogadorAtual);
+    public void jogadorPerdeu(int jogador) {
+        this.cliente.notificaJogadorDerrotado(jogador);
     }
 
     public void jogadorDerrotado(int ordem) {
+        Tela2D.aviso(this.jogadoresTime.get(ordem)+" desconectou!");
         this.jogadoresVivos.remove(ordem);
         this.jogadoresVivos.add(ordem, false);
+        int i = 0;
+        int vencedor = -1;
+        ordem=0;
+        for(boolean vivo : this.jogadoresVivos){
+            i += (vivo)? 1:0;
+            vencedor = (vivo)? ordem : vencedor;
+            ordem++;
+        }
+        if(!(i>1)){
+            this.controle.jogadorVencedor(vencedor);
+        }
     }
 }
