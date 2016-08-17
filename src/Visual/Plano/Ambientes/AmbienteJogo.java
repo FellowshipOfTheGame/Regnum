@@ -5,6 +5,7 @@
 package Visual.Plano.Ambientes;
 
 import Controle.Controle;
+import Controle.Rede.Sala;
 import Controle.Xadrez;
 import Modelo.Campo;
 import Visual.Plano.Tela2D;
@@ -152,6 +153,11 @@ public class AmbienteJogo extends Ambiente {
         for (int i = 0; i < nFaces * 45; i++) {
             mapaCampo[i] = camposTemp[i].getId();
         }
+        
+        Controle c = Controle.instanciaControle();
+        int jogador = c.getJogadorAtual();
+        Sala s = c.getSala();
+        Color color = s.getJogadoresCor().get(jogador);
 
         Image imagePeca, imageFundo;
 
@@ -177,7 +183,7 @@ public class AmbienteJogo extends Ambiente {
             }            
             g2d.rotate(-angle);
             
-            g2d.setColor(Color.red);
+            g2d.setColor(color);
             g2d.drawLine(0, 0, diametroMenor / 2 * 9 - diametroMenor * 8 - diametroMenor, -(diametroMaior * 8) / 2 - diametroMaior/2);
         }
         g2d.rotate(angle * (nFaces));

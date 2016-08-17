@@ -85,6 +85,7 @@ public class Janela extends javax.swing.JFrame {
         jBMensagem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Regnum");
         setMaximumSize(new java.awt.Dimension(2024, 1000));
         setMinimumSize(new java.awt.Dimension(600, 600));
         setPreferredSize(new java.awt.Dimension(600, 750));
