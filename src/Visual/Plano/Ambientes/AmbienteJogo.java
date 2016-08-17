@@ -8,6 +8,8 @@ import Controle.Controle;
 import Controle.Xadrez;
 import Modelo.Campo;
 import Visual.Plano.Tela2D;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -172,8 +174,11 @@ public class AmbienteJogo extends Ambiente {
 
                     }
                 }
-            }
+            }            
             g2d.rotate(-angle);
+            
+            g2d.setColor(Color.red);
+            g2d.drawLine(0, 0, diametroMenor / 2 * 9 - diametroMenor * 8 - diametroMenor, -(diametroMaior * 8) / 2 - diametroMaior/2);
         }
         g2d.rotate(angle * (nFaces));
 
