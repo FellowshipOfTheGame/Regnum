@@ -168,7 +168,7 @@ public class Sala {
     }
 
     public void jogadorDerrotado(int ordem) {
-        Tela2D.aviso(this.jogadoresTime.get(ordem)+" desconectou!");
+        Tela2D.aviso(this.jogadoresTime.get(ordem)+" Perdeu!");
         this.jogadoresVivos.remove(ordem);
         this.jogadoresVivos.add(ordem, false);
         int i = 0;

@@ -98,7 +98,7 @@ public class Cliente extends Thread{
             
         } catch (UnknownHostException ex) {
         } catch (IOException ex) {
-            Tela2D.aviso("Servidor Desconectado!");
+            Tela2D.aviso("Servidor Perdeu!");
         }
     }
     
