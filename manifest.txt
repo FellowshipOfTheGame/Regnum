@@ -1,0 +1,2 @@
+Main-Class: org.Main.Regnum
+Class-Path: lib/jogl-all.jar
